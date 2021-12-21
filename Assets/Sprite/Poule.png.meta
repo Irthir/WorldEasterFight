@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 8a0e7242687422b4eb43dbb095e3f110
+guid: 28a0ebe8c335e0f438226569f686b052
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5760202260919997367
-    second: BackGround_0
+      213: 3275028520990625885
+    second: New Piskel (8)_0
   - first:
-      213: 8382914639024291461
-    second: BackGround_1
+      213: 3150403194116108143
+    second: New Piskel (8)_1
   - first:
-      213: 4093567990479046315
-    second: BackGround_2
+      213: -4072501624859464931
+    second: New Piskel (8)_2
   - first:
-      213: 366070347520600492
-    second: BackGround_3
+      213: 2977839672645786193
+    second: New Piskel (8)_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -58,7 +58,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 350
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -103,13 +103,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BackGround_0
+      name: New Piskel (8)_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1088
-        width: 1088
-        height: 1088
+        x: 253
+        y: 1375
+        width: 582
+        height: 514
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -117,20 +117,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7b3d98cff6950ff40800000000000000
-      internalID: 5760202260919997367
+      spriteID: d505be6861d337d20800000000000000
+      internalID: 3275028520990625885
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BackGround_1
+      name: New Piskel (8)_1
       rect:
         serializedVersion: 2
-        x: 1088
-        y: 1088
-        width: 1088
-        height: 1088
+        x: 1341
+        y: 1375
+        width: 582
+        height: 548
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -138,20 +138,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 58ef6791378165470800000000000000
-      internalID: 8382914639024291461
+      spriteID: f6feb84730b78bb20800000000000000
+      internalID: 3150403194116108143
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BackGround_2
+      name: New Piskel (8)_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1088
-        height: 1088
+        x: 253
+        y: 287
+        width: 582
+        height: 548
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,20 +159,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ba6c96016664fc830800000000000000
-      internalID: 4093567990479046315
+      spriteID: d1bec0769519b77c0800000000000000
+      internalID: -4072501624859464931
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BackGround_3
+      name: New Piskel (8)_3
       rect:
         serializedVersion: 2
-        x: 1088
-        y: 0
-        width: 1088
-        height: 1088
+        x: 1341
+        y: 287
+        width: 582
+        height: 514
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -180,8 +180,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ca9e4c2aa0b841500800000000000000
-      internalID: 366070347520600492
+      spriteID: 15a1e1ea769635920800000000000000
+      internalID: 2977839672645786193
       vertices: []
       indices: 
       edges: []

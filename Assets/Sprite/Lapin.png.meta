@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 8a0e7242687422b4eb43dbb095e3f110
+guid: ee6994af63859624b86f23f8fe94d40e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5760202260919997367
-    second: BackGround_0
+      213: -5319049007031274113
+    second: Lapin_0
   - first:
-      213: 8382914639024291461
-    second: BackGround_1
+      213: -9075952136505818162
+    second: Lapin_1
   - first:
-      213: 4093567990479046315
-    second: BackGround_2
+      213: -2530486838260871281
+    second: Lapin_2
   - first:
-      213: 366070347520600492
-    second: BackGround_3
+      213: 1930095941020809636
+    second: Lapin_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -58,7 +58,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 350
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -103,13 +103,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BackGround_0
+      name: Lapin_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1088
-        width: 1088
-        height: 1088
+        x: 221
+        y: 988
+        width: 390
+        height: 520
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -117,20 +117,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7b3d98cff6950ff40800000000000000
-      internalID: 5760202260919997367
+      spriteID: f75b1011c11fe26b0800000000000000
+      internalID: -5319049007031274113
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BackGround_1
+      name: Lapin_1
       rect:
         serializedVersion: 2
-        x: 1088
-        y: 1088
-        width: 1088
-        height: 1088
+        x: 1053
+        y: 988
+        width: 390
+        height: 494
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -138,20 +138,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 58ef6791378165470800000000000000
-      internalID: 8382914639024291461
+      spriteID: ec38f194e9dbb0280800000000000000
+      internalID: -9075952136505818162
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BackGround_2
+      name: Lapin_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1088
-        height: 1088
+        x: 221
+        y: 156
+        width: 390
+        height: 494
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,20 +159,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ba6c96016664fc830800000000000000
-      internalID: 4093567990479046315
+      spriteID: f8fc8a0b0a7e1ecd0800000000000000
+      internalID: -2530486838260871281
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BackGround_3
+      name: Lapin_3
       rect:
         serializedVersion: 2
-        x: 1088
-        y: 0
-        width: 1088
-        height: 1088
+        x: 1053
+        y: 156
+        width: 390
+        height: 520
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -180,8 +180,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ca9e4c2aa0b841500800000000000000
-      internalID: 366070347520600492
+      spriteID: 4a9f7f2480419ca10800000000000000
+      internalID: 1930095941020809636
       vertices: []
       indices: 
       edges: []
