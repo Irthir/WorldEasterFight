@@ -63,8 +63,10 @@ public class SteamScript: MonoBehaviour
 			string sMessage = "Prout";
 			SteamFriends.GetFriendMessage(pCallback.m_steamIDUser, pCallback.m_iMessageID, out sMessage, 4096, out entry);
 
-			if (entry != Steamworks.EChatEntryType.k_EChatEntryTypeChatMsg && entry != Steamworks.EChatEntryType.k_EChatEntryTypeEmote)
+			if (entry == Steamworks.EChatEntryType.k_EChatEntryTypeChatMsg)
 			{
+				Debug.Log(entry);
+				Debug.Log("Message avant traitement : " + sMessage);
 				MessageReceivedCallbackAutoReply(pCallback, sMessage);
 			}
 		}
@@ -73,7 +75,6 @@ public class SteamScript: MonoBehaviour
 	//BUT : Répondre à un message Steam en répondant la même chose que ce qui est reçu.
 	private void MessageReceivedCallbackAutoReply(GameConnectedFriendChatMsg_t pCallback, string sMessage)
 	{
-
 		SteamFriends.ReplyToFriendMessage(pCallback.m_steamIDUser, sMessage);
 		Debug.Log("Message reçu");
 		Debug.Log(pCallback);
