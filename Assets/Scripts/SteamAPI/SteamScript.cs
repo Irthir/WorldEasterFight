@@ -53,16 +53,37 @@ public class SteamScript: MonoBehaviour
 		#endif
 	}
 
+	//BUT : Évènement de réception d'un message Steam.
 	private void OnMessageReceived(GameConnectedFriendChatMsg_t pCallback)
 	{
+
+		if (SteamManager.Initialized)
+		{
+			Steamworks.EChatEntryType entry = Steamworks.EChatEntryType.k_EChatEntryTypeInvalid;
+			string sMessage = "Prout";
+			SteamFriends.GetFriendMessage(pCallback.m_steamIDUser, pCallback.m_iMessageID, out sMessage, 4096, out entry);
+
+			if (entry != Steamworks.EChatEntryType.k_EChatEntryTypeChatMsg && entry != Steamworks.EChatEntryType.k_EChatEntryTypeEmote)
+			{
+				MessageReceivedCallbackAutoReply(pCallback, sMessage);
+			}
+		}
+	}
+
+	//BUT : Répondre à un message Steam en répondant la même chose que ce qui est reçu.
+	private void MessageReceivedCallbackAutoReply(GameConnectedFriendChatMsg_t pCallback, string sMessage)
+	{
+
+		SteamFriends.ReplyToFriendMessage(pCallback.m_steamIDUser, sMessage);
 		Debug.Log("Message reçu");
 		Debug.Log(pCallback);
-		Debug.Log("ID Message " + pCallback.m_iMessageID);
-		Debug.Log("ID Utilisateur " + pCallback.m_steamIDUser);
-		//EChatEntryType entry = EChatEntryTypeInvalid;
-		string sMessage="Prout";
-		//SteamFriends.GetFriendMessage(pCallback.m_steamIDUser, pCallback.m_iMessageID, out sMessage, 4096, out entry);
+		Debug.Log("ID Message : " + pCallback.m_iMessageID);
+		Debug.Log("ID Utilisateur : " + pCallback.m_steamIDUser);
+		Debug.Log("Nom Utilisateur : " + SteamFriends.GetFriendPersonaName(pCallback.m_steamIDUser));
+		Debug.Log("Message : " + sMessage);
 	}
+
+
 
 #if TESTDOC
 	//Test Doc
