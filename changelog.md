@@ -1,3 +1,12 @@
+## [0.0.4] - 2022-28-02 - R.S.
+### Ajout
+-Création d'une interface de gestion des actions sur l'API Steam.
+### Recherches
+-Recherches quant aux patterns de programmation :
+# http://gameprogrammingpatterns.com/observer.html
+# http://gameprogrammingpatterns.com/event-queue.html
+# http://gameprogrammingpatterns.com/service-locator.html
+
 ## [0.0.3] - 2022-23-02 - R.S.
 ### Ajout
 -Mise en place de l'invitation à un lobby.
