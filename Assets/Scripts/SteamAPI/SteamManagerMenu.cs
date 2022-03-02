@@ -16,10 +16,7 @@ public class SteamManagerMenu : ASteamManager
 		if (SteamManager.Initialized)
 		{
 			SteamLobby.Instance.steamIDLobby = (Steamworks.CSteamID)0;
-
-			SteamMatchmaking.AddRequestLobbyListResultCountFilter(-1);
-			SteamMatchmaking.AddRequestLobbyListStringFilter("Name", "WorldEasterFight", Steamworks.ELobbyComparison.k_ELobbyComparisonEqual);
-			SteamMatchmaking.RequestLobbyList();
+			RequestLobby();
 		}
 		else
 		{
@@ -48,7 +45,7 @@ public class SteamManagerMenu : ASteamManager
 
 		if (Input.GetKeyDown(KeyCode.R))
 		{
-			SteamMatchmaking.RequestLobbyList();
+			RequestLobby();
 		}
 
 		if (Input.GetKeyDown(KeyCode.Q))
@@ -69,8 +66,6 @@ public class SteamManagerMenu : ASteamManager
 		{
 			Debug.Log("Nombre de Lobbys trouvés : " + pCallback.m_nLobbiesMatching);
 			ButtonListContent.GetComponent<ListManager>().EmptyList();
-
-			Debug.Log("Prout");
 
 			for (int i = 0; i < pCallback.m_nLobbiesMatching; i++)
 			{
@@ -117,6 +112,15 @@ public class SteamManagerMenu : ASteamManager
 				Debug.Log("Erreur dans la mise en place des données du lobby.");
 			}
 
+			RequestLobby();
 		}
+	}
+
+	//BUT : Récupérer les lobbys de WorldEasterFight
+	private void RequestLobby()
+	{
+		SteamMatchmaking.AddRequestLobbyListResultCountFilter(-1);
+		SteamMatchmaking.AddRequestLobbyListStringFilter("Name", "WorldEasterFight", Steamworks.ELobbyComparison.k_ELobbyComparisonEqual);
+		SteamMatchmaking.RequestLobbyList();
 	}
 }

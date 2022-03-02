@@ -1,6 +1,7 @@
 ## [0.0.6] - 2022-02-03 - R.S.
 ### Ajout
 -Mise en place de la structure AttaqueV3.
+-Lecture et écrite d'AttaqueV3 en string.
 
 ## [0.0.5] - 2022-01-03 - R.S.
 ### Ajout
