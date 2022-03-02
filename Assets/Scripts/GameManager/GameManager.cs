@@ -28,6 +28,29 @@ public class GameManager : MonoBehaviour
 
     public Animator animPoule;
 
+    public int[ , ] T_Drawings = {
+        //Attaques
+        {0, 1, 2 },         //Attaque haute
+        {0, 3, 6 },         //Attaque gauche
+        {2, 5, 8 },         //Attaque droite
+        {6, 7, 8 },         //Attaque basse
+        //Parades
+        {0, 2, 4 },         //Parade haute
+        {0, 4, 6 },         //Parade gauche
+        {2, 4, 8 },         //Parade droite
+        {4, 6, 8 },         //Parade basse
+        //Esquives
+        {1, 3, 5 },         //Esquive haute
+        {1, 3, 7 },         //Esquive gauche
+        {1, 5, 7 },         //Esquive droite
+        {3, 5, 7 },         //Esquive basse
+        //Soin
+        {0, 4, 8 },         //Soin diagonal haut-gauche
+        {1, 4, 7 },         //Soin vertical
+        {2, 4, 6 },         //Soin diagonal haut-droite
+        {3, 4, 5 }          //Soin horizontal
+    };
+
 
     // Start is called before the first frame update
     void Start()
@@ -117,6 +140,10 @@ public class GameManager : MonoBehaviour
                             //Debug.Log("Clic sur " + hitInfo.collider.gameObject.name + "Devient Noir");
                             hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.black;
                             PlayerPoule.GetComponent<PlayerControl>().ActionPoint--;
+
+                            if(PlayerPoule.GetComponent<PlayerControl>().ActionPoint <= 0) {
+                                
+                            }
                         }
                         else if (PlayerPoule.GetComponent<PlayerControl>().ActionPoint < 3 && hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color != Color.white)
                         {
@@ -262,4 +289,19 @@ public class GameManager : MonoBehaviour
 
         //After we have waited 5 seconds print the time again.
     }
+
+    bool ValidDrawing(int [] T_PlayerDrawing) {
+        int i;
+        bool valid = false;
+
+        for(i = 0; i < 12; i++) {
+            if(T_PlayerDrawing[0] == T_Drawings[i, 0] && T_PlayerDrawing[1] == T_Drawings[i, 1] && T_PlayerDrawing[2] == T_Drawings[i, 2]) {
+                valid = true;
+                break;
+            }
+        }
+
+        return valid;
+    }
+
 }
