@@ -20,5 +20,4 @@ public class SteamLobby : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
 }

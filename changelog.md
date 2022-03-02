@@ -1,3 +1,13 @@
+## [0.0.6] - 2022-02-03 - R.S.
+### Ajout
+-Mise en place de la structure AttaqueV3.
+
+## [0.0.5] - 2022-01-03 - R.S.
+### Ajout
+-Mise en place de la classe abstraite ASteamManager.
+### Modification
+-Refonte du code sans les interfaces et basé sur la classe abstraite ASteamManager.
+
 ## [0.0.4] - 2022-28-02 - R.S.
 ### Ajout
 -Création d'une interface de gestion des actions sur l'API Steam.

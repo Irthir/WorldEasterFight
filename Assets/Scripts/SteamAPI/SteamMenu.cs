@@ -1,3 +1,7 @@
+
+#define TEST
+#if !TEST
+
 using UnityEngine;
 using System.Collections;
 using Steamworks;
@@ -109,3 +113,5 @@ public class SteamMenu : MonoBehaviour
 	}
 
 }
+
+#endif

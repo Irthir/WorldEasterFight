@@ -489,7 +489,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1114876041}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 694494baacb3e6f41b69f2a30ee4ad6f, type: 3}
+  m_Script: {fileID: 11500000, guid: 262193e810386a546b8f3757a63a1a7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ButtonListContent: {fileID: 171171616}
@@ -1176,6 +1176,10 @@ PrefabInstance:
     - target: {fileID: 5723542166623672811, guid: afc4de8b8a55f4341b96c4b96decbd93, type: 3}
       propertyPath: m_Name
       value: SteamLobby
+      objectReference: {fileID: 0}
+    - target: {fileID: 5723542166623672811, guid: afc4de8b8a55f4341b96c4b96decbd93, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: afc4de8b8a55f4341b96c4b96decbd93, type: 3}

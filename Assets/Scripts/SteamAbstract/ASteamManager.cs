@@ -1,37 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Steamworks;
+using System.Text;
 
-public Interface ISteamManagerInterface
+public abstract class ASteamManager : MonoBehaviour
 {
-/*______________________________________LES ÉVÈNEMENTS !!!______________________________________*/
+	/*______________________________________LES ÉVÈNEMENTS !!!______________________________________*/
 
-	Steamworks.SteamAPICall_t hSteamAPICall;
+	protected Steamworks.SteamAPICall_t hSteamAPICall;
 
-    private Callback<LobbyMatchList_t> m_LobbyMatchList;
-    private Callback<LobbyCreated_t> m_LobbyCreated;
-    private Callback<LobbyEnter_t> m_LobbyEntered;
-    private Callback<GameConnectedFriendChatMsg_t> m_GameConnectedFriendChatMsg;
-    private Callback<LobbyChatUpdate_t> m_LobbyChatUpdate;
-    private Callback<LobbyChatMsg_t> m_LobbyChatMsg;
-    private Callback<LobbyDataUpdate_t> m_LobbyDataUpdate;
-    private Callback<LobbyInvite_t> m_LobbyInvite;
+	protected Callback<LobbyMatchList_t> m_LobbyMatchList;
+    protected Callback<LobbyCreated_t> m_LobbyCreated;
+	protected Callback<LobbyEnter_t> m_LobbyEntered;
+	protected Callback<GameConnectedFriendChatMsg_t> m_GameConnectedFriendChatMsg;
+	protected Callback<LobbyChatUpdate_t> m_LobbyChatUpdate;
+	protected Callback<LobbyChatMsg_t> m_LobbyChatMsg;
+	protected Callback<LobbyDataUpdate_t> m_LobbyDataUpdate;
+	protected Callback<LobbyInvite_t> m_LobbyInvite;
 
-    private void OnEnable()
-    {
-	    m_LobbyMatchList = Callback<LobbyMatchList_t>.Create(OnGetLobbyMatchList);
-	    m_LobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
-	    m_LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
-	    m_LobbyChatUpdate = Callback<LobbyChatUpdate_t>.Create(OnLobbyChatUpdate);
-	    m_LobbyChatMsg = Callback<LobbyChatMsg_t>.Create(OnLobbyChatMsg);
-	    m_LobbyDataUpdate = Callback<LobbyDataUpdate_t>.Create(OnLobbyDataUpdate);
-	    m_LobbyInvite = Callback<LobbyInvite_t>.Create(OnLobbyInvite);
-	    SteamFriends.SetListenForFriendsMessages(true);
-	    m_GameConnectedFriendChatMsg = Callback<GameConnectedFriendChatMsg_t>.Create(OnMessageReceived);
-    }
+	//BUT : Initialisation des évènements.
+	protected void OnEnable()
+	{
+		if (SteamManager.Initialized)
+		{
+			m_LobbyMatchList = Callback<LobbyMatchList_t>.Create(OnGetLobbyMatchList);
+			m_LobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
+			m_LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
+			m_LobbyChatUpdate = Callback<LobbyChatUpdate_t>.Create(OnLobbyChatUpdate);
+			m_LobbyChatMsg = Callback<LobbyChatMsg_t>.Create(OnLobbyChatMsg);
+			m_LobbyDataUpdate = Callback<LobbyDataUpdate_t>.Create(OnLobbyDataUpdate);
+			m_LobbyInvite = Callback<LobbyInvite_t>.Create(OnLobbyInvite);
+			SteamFriends.SetListenForFriendsMessages(true);
+			m_GameConnectedFriendChatMsg = Callback<GameConnectedFriendChatMsg_t>.Create(OnMessageReceived);
+		}
+	}
 
 	//BUT : Évènement de réception des lobbys Steam.
-	private void OnGetLobbyMatchList(LobbyMatchList_t pCallback)
+	protected void OnGetLobbyMatchList(LobbyMatchList_t pCallback)
 	{
 		if (SteamManager.Initialized)
 		{
@@ -40,7 +46,7 @@ public Interface ISteamManagerInterface
 	}
 
 	//BUT : Évènement de création d'un lobby.
-	private void OnLobbyCreated(LobbyCreated_t pCallback)
+	protected void OnLobbyCreated(LobbyCreated_t pCallback)
 	{
 		if (SteamManager.Initialized)
 		{
@@ -57,7 +63,7 @@ public Interface ISteamManagerInterface
 	}
 
 	//BUT : Évènement d'entrée dans un lobby.
-	private void OnLobbyEntered(LobbyEnter_t pCallback)
+	protected void OnLobbyEntered(LobbyEnter_t pCallback)
 	{
 		if (SteamManager.Initialized)
 		{
@@ -66,7 +72,7 @@ public Interface ISteamManagerInterface
 	}
 
 	//BUT : Évènement de réception d'un message Steam.
-	private void OnMessageReceived(GameConnectedFriendChatMsg_t pCallback)
+	protected void OnMessageReceived(GameConnectedFriendChatMsg_t pCallback)
 	{
 		if (SteamManager.Initialized)
 		{
@@ -83,7 +89,7 @@ public Interface ISteamManagerInterface
 	}
 
 	//BUT: Évènement d'entrée et de sortie du lobby.
-	private void OnLobbyChatUpdate(LobbyChatUpdate_t pCallback)
+	protected void OnLobbyChatUpdate(LobbyChatUpdate_t pCallback)
 	{
 		string sMessage = "";
 		switch ((Steamworks.EChatMemberStateChange)pCallback.m_rgfChatMemberStateChange)
@@ -114,7 +120,7 @@ public Interface ISteamManagerInterface
 	}
 
 	//BUT: Évènement de réception d'un message du lobby.
-	private void OnLobbyChatMsg(LobbyChatMsg_t pCallback)
+	protected void OnLobbyChatMsg(LobbyChatMsg_t pCallback)
 	{
 		Steamworks.EChatEntryType eChatEntryType;
 		string sMessage;
@@ -126,7 +132,7 @@ public Interface ISteamManagerInterface
 	}
 
 	//BUT: Évènement de mise à jour des données du lobby.
-	private void OnLobbyDataUpdate(LobbyDataUpdate_t pCallback)
+	protected void OnLobbyDataUpdate(LobbyDataUpdate_t pCallback)
 	{
 		string sLobby = pCallback.m_ulSteamIDLobby.ToString();
 		string sMember = pCallback.m_ulSteamIDMember.ToString();
@@ -141,7 +147,7 @@ public Interface ISteamManagerInterface
 	}
 
 	//BUT: Évènement de réception d'une invitation au lobby.
-	private void OnLobbyInvite(LobbyInvite_t pCallback)
+	protected void OnLobbyInvite(LobbyInvite_t pCallback)
 	{
 		string sNom = SteamFriends.GetFriendPersonaName((Steamworks.CSteamID)pCallback.m_ulSteamIDUser);
 		string sLobby = pCallback.m_ulSteamIDLobby.ToString();
@@ -149,10 +155,10 @@ public Interface ISteamManagerInterface
 		Debug.Log(sNom + " vous a invité au lobby : " + sLobby + " sur le jeu : " + sGame + ".");
 	}
 
-/*______________________________________LES ACTIONS !!!______________________________________*/
+	/*______________________________________LES ACTIONS !!!______________________________________*/
 
 	//BUT : Quitter un lobby.
-	private void LeaveLobby()
+	protected void LeaveLobby()
 	{
 		if (SteamLobby.Instance.steamIDLobby != (Steamworks.CSteamID)0)
 		{
@@ -165,7 +171,7 @@ public Interface ISteamManagerInterface
 	}
 
 	//BUT : Créer un lobby.
-	private void CreateLobby()
+	protected void CreateLobby()
 	{
 		//En faire un Singleton
 		LeaveLobby();
@@ -203,5 +209,4 @@ public Interface ISteamManagerInterface
 		bytes = Encoding.Default.GetBytes(sMessage);
 		SteamMatchmaking.SendLobbyChatMsg(SteamLobby.Instance.steamIDLobby, bytes, 4096);
 	}
-
 }
