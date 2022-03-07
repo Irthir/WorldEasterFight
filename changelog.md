@@ -13,6 +13,7 @@
 -Mise en place la liaison entre la scène de menu et la scène de jeu.
 -Mise en place de la communication pour les attaques des joueurs.
 -Mise en place de la détermination du joueur pour le jeu.
+-Mise en place du choix du personnage au démarrage de la scène du jeu.
 ### Modification
 -Correction d'un bug sur le gamemanager.
 

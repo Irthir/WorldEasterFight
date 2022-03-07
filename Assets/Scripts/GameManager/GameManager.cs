@@ -61,8 +61,18 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CurrentStat = GameStat.Draw;
+        if (SteamLobby.Instance.sJoueur == "Lapin")
+        {
+            Debug.Log("Joueur = Lapin");
+            WhoIsPlayer = CurrentPlayer.Lapin;
+        }
+        else if (SteamLobby.Instance.sJoueur == "Poule")
+        {
+            Debug.Log("Joueur = Poule");
+            WhoIsPlayer = CurrentPlayer.Poule;
+        }
 
+        CurrentStat = GameStat.Draw;
     }
 
     // Update is called once per frame
@@ -108,14 +118,14 @@ public class GameManager : MonoBehaviour
 
                 if (WhoIsPlayer == CurrentPlayer.Poule)
                 {
-                    WhoIsPlayerTxT.SetText("Vous étes : Poule");
+                    WhoIsPlayerTxT.SetText("Vous êtes : Poule");
                     PaTXT.SetText("Point d'action : " + PlayerPoule.GetComponent<PlayerControl>().ActionPoint);
                     PlayerLapinGrid.SetActive(false);
                     PlayerPouleGrid.SetActive(true);
                 }
                 else if (WhoIsPlayer == CurrentPlayer.Lapin)
                 {
-                    WhoIsPlayerTxT.SetText("Vous étes : Lapin");
+                    WhoIsPlayerTxT.SetText("Vous êtes : Lapin");
                     PaTXT.SetText("Point d'action : " + PlayerLapin.GetComponent<PlayerControl>().ActionPoint);
                     PlayerLapinGrid.SetActive(true);
                     PlayerPouleGrid.SetActive(false);

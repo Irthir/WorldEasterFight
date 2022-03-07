@@ -9,7 +9,7 @@ public class SteamManagerMenu : ASteamManager
 	[SerializeField]
 	private GameObject prefabJoinButton;
 
-	//BUT : Faire la première recherche pour l'affichage, et mettre en place les conditions de recherche.
+	//BUT : Faire la premiï¿½re recherche pour l'affichage, et mettre en place les conditions de recherche.
 	private void Start()
 	{
 		if (SteamManager.Initialized)
@@ -23,7 +23,7 @@ public class SteamManagerMenu : ASteamManager
 		}
 	}
 
-	//BUT : Initialisation des évènements.
+	//BUT : Initialisation des ï¿½vï¿½nements.
 	new protected void OnEnable()
 	{
 		base.OnEnable();
@@ -36,7 +36,7 @@ public class SteamManagerMenu : ASteamManager
 		}
 	}
 
-	//BUT : Gérer les inputs pour le lobby.
+	//BUT : Gï¿½rer les inputs pour le lobby.
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
@@ -60,14 +60,14 @@ public class SteamManagerMenu : ASteamManager
 		}
 	}
 
-	/*______________________________________LES ÉVÈNEMENTS !!!______________________________________*/
+	/*______________________________________LES ï¿½Vï¿½NEMENTS !!!______________________________________*/
 
-	//BUT : Mettre à jour le menu à la réception des lobbys
+	//BUT : Mettre ï¿½ jour le menu ï¿½ la rï¿½ception des lobbys
 	new private void OnGetLobbyMatchList(LobbyMatchList_t pCallback)
 	{
 		if (SteamManager.Initialized)
 		{
-			Debug.Log("Nombre de Lobbys trouvés : " + pCallback.m_nLobbiesMatching);
+			Debug.Log("Nombre de Lobbys trouvï¿½s : " + pCallback.m_nLobbiesMatching);
 			if (ButtonListContent)
 			{
 				ButtonListContent.GetComponent<ListManager>().EmptyList();
@@ -78,7 +78,7 @@ public class SteamManagerMenu : ASteamManager
 					//Debug.Log("Id " + i + " " + idLobby);
 					//Steamworks.CSteamID idOwner = SteamMatchmaking.GetLobbyOwner(idLobby);
 					/*string sName = SteamFriends.GetFriendPersonaName(idOwner);
-					Debug.Log("Hôte : " + sName);*/
+					Debug.Log("Hï¿½te : " + sName);*/
 					string sName = SteamMatchmaking.GetLobbyData(idLobby, "Name");
 					if (sName != "")
 					{
@@ -93,35 +93,35 @@ public class SteamManagerMenu : ASteamManager
 		}
 	}
 
-	//BUT : Créer le lobby et mettre en place les données.
+	//BUT : Crï¿½er le lobby et mettre en place les donnï¿½es.
 	new private void OnLobbyCreated(LobbyCreated_t pCallback)
 	{
 		if (SteamManager.Initialized)
 		{
 			if (pCallback.m_eResult != Steamworks.EResult.k_EResultOK)
 			{
-				Debug.Log("Création du lobby échouée.");
+				Debug.Log("Crï¿½ation du lobby ï¿½chouï¿½e.");
 				return;
 			}
 
-			Debug.Log("Lobby créé " + pCallback.m_ulSteamIDLobby);
+			Debug.Log("Lobby crï¿½ï¿½ " + pCallback.m_ulSteamIDLobby);
 
 			SteamLobby.Instance.steamIDLobby = (Steamworks.CSteamID)pCallback.m_ulSteamIDLobby;
 
 			if (SteamMatchmaking.SetLobbyData(SteamLobby.Instance.steamIDLobby, "Name", "WorldEasterFight"))
 			{
-				Debug.Log("Mise en place des données du lobby.");
+				Debug.Log("Mise en place des donnï¿½es du lobby.");
 			}
 			else
 			{
-				Debug.Log("Erreur dans la mise en place des données du lobby.");
+				Debug.Log("Erreur dans la mise en place des donnï¿½es du lobby.");
 			}
 
 			RequestLobby();
 		}
 	}
 
-	//BUT : Évènement d'entrée dans un lobby.
+	//BUT : ï¿½vï¿½nement d'entrï¿½e dans un lobby.
 	new private void OnLobbyEntered(LobbyEnter_t pCallback)
 	{
 		if (SteamManager.Initialized)
@@ -132,7 +132,7 @@ public class SteamManagerMenu : ASteamManager
 		}
 	}
 
-	//BUT: Évènement d'entrée et de sortie du lobby.
+	//BUT: ï¿½vï¿½nement d'entrï¿½e et de sortie du lobby.
 	new private void OnLobbyChatUpdate(LobbyChatUpdate_t pCallback)
 	{
 		if (SteamManager.Initialized)
@@ -141,19 +141,19 @@ public class SteamManagerMenu : ASteamManager
 			switch ((Steamworks.EChatMemberStateChange)pCallback.m_rgfChatMemberStateChange)
 			{
 				case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeEntered:
-					sMessage = "est entré dans le lobby.";
+					sMessage = "est entrï¿½ dans le lobby.";
 					break;
 				case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeLeft:
-					sMessage = "a quitté le lobby.";
+					sMessage = "a quittï¿½ le lobby.";
 					break;
 				case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeDisconnected:
-					sMessage = "s'est déconnecté.";
+					sMessage = "s'est dï¿½connectï¿½.";
 					break;
 				case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeKicked:
-					sMessage = "a été exclu.";
+					sMessage = "a ï¿½tï¿½ exclu.";
 					break;
 				case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeBanned:
-					sMessage = "a été banni.";
+					sMessage = "a ï¿½tï¿½ banni.";
 					break;
 				default:
 					sMessage = ".";
@@ -170,7 +170,7 @@ public class SteamManagerMenu : ASteamManager
 
 	/*______________________________________LES ACTIONS !!!______________________________________*/
 
-	//BUT : Récupérer les lobbys de WorldEasterFight
+	//BUT : Rï¿½cupï¿½rer les lobbys de WorldEasterFight
 	private void RequestLobby()
 	{
 		SteamMatchmaking.AddRequestLobbyListResultCountFilter(-1);
@@ -180,14 +180,14 @@ public class SteamManagerMenu : ASteamManager
 
 	/*______________________________________LES LOGS !!!______________________________________*/
 
-	//BUT : Afficher les logs du lobbys et lancer la scène si le lobby est complet.
+	//BUT : Afficher les logs du lobbys et lancer la scï¿½ne si le lobby est complet.
 	private void LogLobby()
 	{
 		if (SteamManager.Initialized)
 		{
 			int nbJoueur = SteamMatchmaking.GetNumLobbyMembers(SteamLobby.Instance.steamIDLobby);
 
-			Debug.Log("Nombre de joueurs présents dans le lobby " + nbJoueur + ".");
+			Debug.Log("Nombre de joueurs prï¿½sents dans le lobby " + nbJoueur + ".");
 
 			for (int i = 0; i < nbJoueur; i++)
 			{
@@ -200,13 +200,8 @@ public class SteamManagerMenu : ASteamManager
 				string oldUserName = SteamFriends.GetFriendPersonaNameHistory(UserID, 0);
 				Debug.Log("Ancien nom d'utilisateur : " + oldUserName);
 			}
-<<<<<<< HEAD
 
 			if (nbJoueur == 1)//2)
-=======
-			
-			if (nbJoueur == 2)
->>>>>>> RomainS
 			{
 				setPlayer();
 				stopCallbacks();
@@ -215,7 +210,7 @@ public class SteamManagerMenu : ASteamManager
 		}
 	}
 
-	//BUT : Mettre en place le rôle Lapin ou Poule.
+	//BUT : Mettre en place le rï¿½le Lapin ou Poule.
 	private void setPlayer()
 	{
 		if (SteamManager.Initialized)
