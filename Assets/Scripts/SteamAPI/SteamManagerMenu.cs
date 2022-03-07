@@ -174,7 +174,7 @@ public class SteamManagerMenu : ASteamManager
 	private void RequestLobby()
 	{
 		SteamMatchmaking.AddRequestLobbyListResultCountFilter(-1);
-		SteamMatchmaking.AddRequestLobbyListStringFilter("Name", "WorldEasterFight", Steamworks.ELobbyComparison.k_ELobbyComparisonEqual);
+		//SteamMatchmaking.AddRequestLobbyListStringFilter("Name", "WorldEasterFight", Steamworks.ELobbyComparison.k_ELobbyComparisonEqual);
 		SteamMatchmaking.RequestLobbyList();
 	}
 

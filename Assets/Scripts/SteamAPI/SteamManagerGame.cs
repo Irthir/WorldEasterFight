@@ -12,7 +12,7 @@ public class SteamManagerGame : ASteamManager
         {
             Debug.Log("Erreur session non trouvée.");
             stopCallbacks();
-            SceneManager.LoadScene("Game");
+            SceneManager.LoadScene("Menu");
         }
         else
         {
