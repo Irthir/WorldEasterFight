@@ -1,3 +1,10 @@
+## [0.1.1] - 2022-02-03 - G.P.
+###Ajout
+-Création des tableaux d'équilibrage
+###Modification
+-Refonte du système de jeu, avec les attaques, parades, esquives et soins
+-Travail sur l'ajout du nouveau système de jeu sur Unity
+
 ## [0.0.6] - 2022-02-03 - R.S.
 ### Ajout
 -Mise en place de la structure AttaqueV3.
