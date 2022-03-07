@@ -18,6 +18,11 @@ public class SteamManagerGame : ASteamManager
         {
             Debug.Log("Session trouvée.");
         }
+
+        if (SteamManager.Initialized)
+        {
+
+        }
     }
 
     // Update is called once per frame

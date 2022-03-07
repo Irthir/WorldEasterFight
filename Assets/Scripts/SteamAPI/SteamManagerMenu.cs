@@ -180,6 +180,7 @@ public class SteamManagerMenu : ASteamManager
 
 	/*______________________________________LES LOGS !!!______________________________________*/
 
+	//BUT : Afficher les logs du lobbys et lancer la scène si le lobby est complet.
 	private void LogLobby()
 	{
 		if (SteamManager.Initialized)
@@ -199,11 +200,33 @@ public class SteamManagerMenu : ASteamManager
 				string oldUserName = SteamFriends.GetFriendPersonaNameHistory(UserID, 0);
 				Debug.Log("Ancien nom d'utilisateur : " + oldUserName);
 			}
+<<<<<<< HEAD
 
 			if (nbJoueur == 1)//2)
+=======
+			
+			if (nbJoueur == 2)
+>>>>>>> RomainS
 			{
+				setPlayer();
 				stopCallbacks();
 				SceneManager.LoadScene("Game");
+			}
+		}
+	}
+
+	//BUT : Mettre en place le rôle Lapin ou Poule.
+	private void setPlayer()
+	{
+		if (SteamManager.Initialized)
+		{
+			if (SteamUser.GetSteamID() == SteamMatchmaking.GetLobbyOwner(SteamLobby.Instance.steamIDLobby))
+			{
+				SteamLobby.Instance.sJoueur = "Lapin";
+			}
+			else
+			{
+				SteamLobby.Instance.sJoueur = "Poule";
 			}
 		}
 	}

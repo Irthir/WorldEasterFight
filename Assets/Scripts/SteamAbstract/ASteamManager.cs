@@ -5,7 +5,6 @@ using System.Text;
 
 public abstract class ASteamManager : MonoBehaviour
 {
-	/*______________________________________LES ÉVÈNEMENTS !!!______________________________________*/
 
 	protected Steamworks.SteamAPICall_t hSteamAPICall;
 
@@ -34,6 +33,8 @@ public abstract class ASteamManager : MonoBehaviour
 			m_GameConnectedFriendChatMsg = Callback<GameConnectedFriendChatMsg_t>.Create(OnMessageReceived);
 		}
 	}
+
+	/*______________________________________LES ÉVÈNEMENTS !!!______________________________________*/
 
 	//BUT : Évènement de réception des lobbys Steam.
 	protected void OnGetLobbyMatchList(LobbyMatchList_t pCallback)
@@ -188,7 +189,6 @@ public abstract class ASteamManager : MonoBehaviour
 	{
 		if (SteamManager.Initialized)
 		{
-			//En faire un Singleton
 			LeaveLobby();
 			hSteamAPICall = SteamMatchmaking.CreateLobby(Steamworks.ELobbyType.k_ELobbyTypePublic, 2);
 		}
@@ -199,7 +199,6 @@ public abstract class ASteamManager : MonoBehaviour
 	{
 		if (SteamManager.Initialized)
 		{
-			//En faire un Singleton
 			LeaveLobby();
 			hSteamAPICall = SteamMatchmaking.JoinLobby(idLobby);
 		}
