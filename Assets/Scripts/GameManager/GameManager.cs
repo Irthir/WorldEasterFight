@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
     public int[] T_PouleDrawing = { -1, -1, -1 };
     public int[] T_LapinDrawing = { -1, -1, -1 };
 
+    public GameObject ResultGrid;
+    public SpriteRenderer[] T_ResultGrid;
+
     public TextMeshProUGUI WhoIsPlayerTxT;
     public TextMeshProUGUI PaTXT;
 
@@ -65,55 +68,66 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        int i;
 
-        if (CurrentStat == GameStat.ReStart)
+        switch (CurrentStat)
         {
-            CurrentStat = GameStat.Draw;
-            PlayerPoule.GetComponent<PlayerControl>().ActionPoint = 3;
-            PlayerLapin.GetComponent<PlayerControl>().ActionPoint = 3;
-            animPoule.SetBool("Attaque1", false);
-            animPoule.SetBool("Attaque2", false);
-            animPoule.SetBool("Defense1", false);
-            animPoule.SetBool("Defense2", false);
+            case GameStat.ReStart:
+                CurrentStat = GameStat.Draw;
+                PlayerPoule.GetComponent<PlayerControl>().ActionPoint = 3;
+                PlayerLapin.GetComponent<PlayerControl>().ActionPoint = 3;
+                ResultGrid.SetActive(false);
+                animPoule.SetBool("Attaque1", false);
+                animPoule.SetBool("Attaque2", false);
+                animPoule.SetBool("Defense1", false);
+                animPoule.SetBool("Defense2", false);
 
-            for (int i = 0; i < T_PlayerPouleGrid.Length; i++)
-            {
-                //Debug.Log("Couleur avant : " + T_PlayerPouleGrid[i].color);
-                T_PlayerPouleGrid[i].color = Color.white;
-                T_PlayerLapinGrid[i].color = Color.white;
-                //Debug.Log("Couleur apres : " + T_PlayerPouleGrid[i].color);
-            }
+                for (i = 0; i < T_PlayerPouleGrid.Length; i++)
+                {
+                    //Debug.Log("Couleur avant : " + T_PlayerPouleGrid[i].color);
+                    if(T_PlayerPouleGrid[i].color == Color.white) {
+                        T_PlayerPouleGrid[i].color = Color.white;
+                    } else {
+                        T_PlayerPouleGrid[i].color = Color.red;
+                    }
 
+                    if (T_PlayerLapinGrid[i].color == Color.white) {
+                        T_PlayerLapinGrid[i].color = Color.white;
+                    } else {
+                        T_PlayerLapinGrid[i].color = Color.red;
+                    }
 
+                    WhoIsPlayer = CurrentPlayer.Poule;
+                    
+                    //Debug.Log("Couleur apres : " + T_PlayerPouleGrid[i].color);
+                }
+                break;
 
+            case GameStat.Draw:
+                drawPhase();
+
+                if (WhoIsPlayer == CurrentPlayer.Poule)
+                {
+                    WhoIsPlayerTxT.SetText("Vous étes : Poule");
+                    PaTXT.SetText("Point d'action : " + PlayerPoule.GetComponent<PlayerControl>().ActionPoint);
+                    PlayerLapinGrid.SetActive(false);
+                    PlayerPouleGrid.SetActive(true);
+                }
+                else if (WhoIsPlayer == CurrentPlayer.Lapin)
+                {
+                    WhoIsPlayerTxT.SetText("Vous étes : Lapin");
+                    PaTXT.SetText("Point d'action : " + PlayerLapin.GetComponent<PlayerControl>().ActionPoint);
+                    PlayerLapinGrid.SetActive(true);
+                    PlayerPouleGrid.SetActive(false);
+                }
+                break;
+
+            case GameStat.Fight:
+                resultPhase();
+                //CurrentStat = GameStat.Result;
+                break;
         }
-        else if (CurrentStat == GameStat.Draw)
-        {
-            drawPhase();
 
-            if (WhoIsPlayer == CurrentPlayer.Poule)
-            {
-                WhoIsPlayerTxT.SetText("Vous étes : Poule");
-                PaTXT.SetText("Point d'action : " + PlayerPoule.GetComponent<PlayerControl>().ActionPoint);
-                PlayerLapinGrid.SetActive(false);
-                PlayerPouleGrid.SetActive(true);
-            }
-            else if (WhoIsPlayer == CurrentPlayer.Lapin)
-            {
-                WhoIsPlayerTxT.SetText("Vous étes : Lapin");
-                PaTXT.SetText("Point d'action : " + PlayerLapin.GetComponent<PlayerControl>().ActionPoint);
-                PlayerLapinGrid.SetActive(true);
-                PlayerPouleGrid.SetActive(false);
-
-            }
-        }
-        else if (CurrentStat == GameStat.Fight)
-        {
-
-            CurrentStat = GameStat.Result;
-            resultPhase();
-
-        }
 
 
         if (WhoIsPlayer == CurrentPlayer.None)
@@ -152,7 +166,7 @@ public class GameManager : MonoBehaviour
     void playerDrawing(GameObject PlayerObject, SpriteRenderer[] T_PlayerGrid, out int[] T_PlayerDrawing)
     {
         int i;
-        int numDrawing;
+        int numDrawing, typeDrawing;
         int j = 0;
         int[] T_BaseDrawing = { -1, -1, -1 };
         T_PlayerDrawing = T_BaseDrawing;
@@ -166,7 +180,7 @@ public class GameManager : MonoBehaviour
         {
             if (hitInfo.collider.gameObject.tag == "Grid")
             {
-                if (PlayerObject.GetComponent<PlayerControl>().ActionPoint > 0 && hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color != Color.black)
+                if (PlayerObject.GetComponent<PlayerControl>().ActionPoint > 0 && hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color == Color.white)
                 {
 
                     //Debug.Log("Clic sur " + hitInfo.collider.gameObject.name + ": Devient Noir");
@@ -188,20 +202,23 @@ public class GameManager : MonoBehaviour
                         numDrawing = ValidDrawing(T_PlayerDrawing);
 
                         if (numDrawing != -1) {
+                            typeDrawing = (numDrawing / 4) + 1;
                             Debug.Log("Dessin n°" + numDrawing);
-                            PlayerAttack = new AttaqueV3(T_PlayerDrawing[0], T_PlayerDrawing[1], T_PlayerDrawing[2]);
+                            PlayerAttack = new AttaqueV3(typeDrawing, T_PlayerDrawing[0], T_PlayerDrawing[1], T_PlayerDrawing[2]);
+                            WhoIsPlayer = CurrentPlayer.Lapin;
                         } else {
                             Debug.Log("Dessin invalide");
                             PlayerObject.GetComponent<PlayerControl>().ActionPoint = 3;
-                            for(i=0; i<T_PlayerGrid.Length; i++)
-                            {
-                                T_PlayerGrid[i].color = Color.white;
+                            for(i=0; i<T_PlayerGrid.Length; i++) {
+                                if (T_PlayerGrid[i].color != Color.red) {
+                                    T_PlayerGrid[i].color = Color.white;
+                                }
                             }
                         }
 
                     }
                 }
-                else if (PlayerObject.GetComponent<PlayerControl>().ActionPoint < 3 && hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color != Color.white)
+                else if (PlayerObject.GetComponent<PlayerControl>().ActionPoint < 3 && hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color == Color.black)
                 {
                     //Debug.Log("Clic sur " + hitInfo.collider.gameObject.name + "Devient Blanc");
                     hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
@@ -218,8 +235,41 @@ public class GameManager : MonoBehaviour
 
     void resultPhase()
     {
+        int i;
+        
+        for(i=0; i<T_ResultGrid.Length; i++) {
+            T_ResultGrid[i].color = Color.white;
+        }
+
         Debug.Log("resultPhase");
 
+        for(i=0; i<T_ResultGrid.Length; i++) {
+            if(T_PlayerPouleGrid[i].color == Color.black) {
+                if(T_PlayerLapinGrid[i].color == Color.black) {
+                    T_ResultGrid[i].color = Color.yellow;
+                } else {
+                    T_ResultGrid[i].color = Color.red;
+                }
+            } else {
+                if (T_PlayerLapinGrid[i].color == Color.black) {
+                    T_ResultGrid[i].color = Color.green;
+                }
+            }
+
+            if(T_PlayerPouleGrid[i].color == Color.red) {
+                T_PlayerPouleGrid[i].color = Color.white;
+            }
+            if (T_PlayerLapinGrid[i].color == Color.red)
+            {
+                T_PlayerLapinGrid[i].color = Color.white;
+            }
+
+        }
+
+        ResultGrid.SetActive(true);
+
+        
+        /*
         //Pour la poule 
         //Attaque :
         if (T_PlayerPouleGrid[0].color == Color.black && T_PlayerPouleGrid[1].color == Color.black && T_PlayerPouleGrid[2].color == Color.black)
@@ -274,6 +324,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("DEFENSE 2 DU LAPIN !");
             LapinAction = Action.Defense2;
         }
+        */
 
 
         StartCoroutine(TimeCoroutine());
@@ -288,7 +339,7 @@ public class GameManager : MonoBehaviour
 
         //yield on a new YieldInstruction that waits for 5 seconds.
         yield return new WaitForSeconds(2);
-        if (PouleAction == Action.Attaque1 && LapinAction != Action.Defense1)
+        /*if (PouleAction == Action.Attaque1 && LapinAction != Action.Defense1)
         {
             PlayerLapin.GetComponent<PlayerControl>().ThisPlayerGetHit = true;
         }
@@ -304,7 +355,7 @@ public class GameManager : MonoBehaviour
         else if (LapinAction == Action.Attaque2 && PouleAction != Action.Defense2)
         {
             PlayerPoule.GetComponent<PlayerControl>().ThisPlayerGetHit = true;
-        }
+        }*/
         CurrentStat = GameStat.ReStart;
 
         //After we have waited 5 seconds print the time again.

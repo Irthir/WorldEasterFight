@@ -1,3 +1,9 @@
+## [0.3.1] - 2022-07-03 - G.P.
+### Ajout
+-Ajout du système empêchant au joueur de réutiliser deux fois la même case 2 tours d'affilée
+### Modification
+-Modification de l'affichage des dessins
+
 ## [0.2.1] - 2022-07-03 - G.P.
 ###Modification
 -Finalisation du systeme de dessin
