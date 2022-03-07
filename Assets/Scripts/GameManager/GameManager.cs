@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
         int[] T_BaseDrawing = { -1, -1, -1 };
         T_PlayerDrawing = T_BaseDrawing;
 
-        AttaqueV3 PlayerAttack
+        AttaqueV3 PlayerAttack;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
@@ -189,9 +189,7 @@ public class GameManager : MonoBehaviour
 
                         if (numDrawing != -1) {
                             Debug.Log("Dessin n°" + numDrawing);
-                            PlayerAttack.Case1 = T_PlayerDrawing[1];
-                            PlayerAttack.Case2 = T_PlayerDrawing[2];
-                            PlayerAttack.Case3 = T_PlayerDrawing[3];
+                            PlayerAttack = new AttaqueV3(T_PlayerDrawing[0], T_PlayerDrawing[1], T_PlayerDrawing[2]);
                         } else {
                             Debug.Log("Dessin invalide");
                             PlayerObject.GetComponent<PlayerControl>().ActionPoint = 3;
