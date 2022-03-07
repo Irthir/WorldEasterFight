@@ -8,6 +8,8 @@ public class SteamLobby : MonoBehaviour
 
     public Steamworks.CSteamID steamIDLobby = (Steamworks.CSteamID)0;
 
+    public string sJoueur = "";
+
     private void Awake()
     {
         if (Instance == null)

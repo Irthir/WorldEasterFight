@@ -1,3 +1,9 @@
+## [0.3.1] - 2022-07-03 - G.P.
+### Ajout
+-Ajout du système empêchant au joueur de réutiliser deux fois la même case 2 tours d'affilée
+### Modification
+-Modification de l'affichage des dessins
+
 ## [0.2.1] - 2022-07-03 - G.P.
 ###Modification
 -Finalisation du systeme de dessin
@@ -6,6 +12,7 @@
 ### Ajout
 -Mise en place la liaison entre la scène de menu et la scène de jeu.
 -Mise en place de la communication pour les attaques des joueurs.
+-Mise en place de la détermination du joueur pour le jeu.
 ### Modification
 -Correction d'un bug sur le gamemanager.
 
