@@ -1,3 +1,8 @@
+## [0.0.7] - 2022-07-03 - R.S.
+### Ajout
+-Mise en place la liaison entre la scène de menu et la scène de jeu.
+-Mise en place de la communication pour les attaques des joueurs.
+
 ## [0.1.1] - 2022-02-03 - G.P.
 ###Ajout
 -Création des tableaux d'équilibrage

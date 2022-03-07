@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Steamworks;
+using UnityEngine.SceneManagement;
 
 public class SteamManagerMenu : ASteamManager
 {
@@ -32,6 +31,8 @@ public class SteamManagerMenu : ASteamManager
 		{
 			m_LobbyMatchList = Callback<LobbyMatchList_t>.Create(OnGetLobbyMatchList);
 			m_LobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
+			m_LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
+			m_LobbyChatUpdate = Callback<LobbyChatUpdate_t>.Create(OnLobbyChatUpdate);
 		}
 	}
 
@@ -59,34 +60,38 @@ public class SteamManagerMenu : ASteamManager
 		}
 	}
 
+	/*______________________________________LES ÉVÈNEMENTS !!!______________________________________*/
+
 	//BUT : Mettre à jour le menu à la réception des lobbys
 	new private void OnGetLobbyMatchList(LobbyMatchList_t pCallback)
 	{
 		if (SteamManager.Initialized)
 		{
 			Debug.Log("Nombre de Lobbys trouvés : " + pCallback.m_nLobbiesMatching);
-			ButtonListContent.GetComponent<ListManager>().EmptyList();
-
-			for (int i = 0; i < pCallback.m_nLobbiesMatching; i++)
+			if (ButtonListContent)
 			{
-				Steamworks.CSteamID idLobby = SteamMatchmaking.GetLobbyByIndex(i);
-				//Debug.Log("Id " + i + " " + idLobby);
-				//Steamworks.CSteamID idOwner = SteamMatchmaking.GetLobbyOwner(idLobby);
-				/*string sName = SteamFriends.GetFriendPersonaName(idOwner);
-				Debug.Log("Hôte : " + sName);*/
-				string sName = SteamMatchmaking.GetLobbyData(idLobby, "Name");
-				if (sName != "")
+				ButtonListContent.GetComponent<ListManager>().EmptyList();
+
+				for (int i = 0; i < pCallback.m_nLobbiesMatching; i++)
 				{
-					Debug.Log("Nom Lobby : " + sName);
-					GameObject myJoinButton = Instantiate(prefabJoinButton, new Vector3(0, 0, 0), Quaternion.identity);
-					myJoinButton.GetComponent<JoinLobby>().cSteamID = idLobby;
-					myJoinButton.transform.GetChild(0).GetChild(0).gameObject.GetComponent<UnityEngine.UI.Text>().text = sName;
-					myJoinButton.transform.SetParent(ButtonListContent.transform);
+					Steamworks.CSteamID idLobby = SteamMatchmaking.GetLobbyByIndex(i);
+					//Debug.Log("Id " + i + " " + idLobby);
+					//Steamworks.CSteamID idOwner = SteamMatchmaking.GetLobbyOwner(idLobby);
+					/*string sName = SteamFriends.GetFriendPersonaName(idOwner);
+					Debug.Log("Hôte : " + sName);*/
+					string sName = SteamMatchmaking.GetLobbyData(idLobby, "Name");
+					if (sName != "")
+					{
+						Debug.Log("Nom Lobby : " + sName);
+						GameObject myJoinButton = Instantiate(prefabJoinButton, new Vector3(0, 0, 0), Quaternion.identity);
+						myJoinButton.GetComponent<JoinLobby>().cSteamID = idLobby;
+						myJoinButton.transform.GetChild(0).GetChild(0).gameObject.GetComponent<UnityEngine.UI.Text>().text = sName;
+						myJoinButton.transform.SetParent(ButtonListContent.transform);
+					}
 				}
 			}
 		}
 	}
-
 
 	//BUT : Créer le lobby et mettre en place les données.
 	new private void OnLobbyCreated(LobbyCreated_t pCallback)
@@ -116,11 +121,90 @@ public class SteamManagerMenu : ASteamManager
 		}
 	}
 
+	//BUT : Évènement d'entrée dans un lobby.
+	new private void OnLobbyEntered(LobbyEnter_t pCallback)
+	{
+		if (SteamManager.Initialized)
+		{
+			Debug.Log("Lobby rejoint : " + pCallback.m_ulSteamIDLobby);
+
+			LogLobby();
+		}
+	}
+
+	//BUT: Évènement d'entrée et de sortie du lobby.
+	new private void OnLobbyChatUpdate(LobbyChatUpdate_t pCallback)
+	{
+		if (SteamManager.Initialized)
+		{
+			string sMessage = "";
+			switch ((Steamworks.EChatMemberStateChange)pCallback.m_rgfChatMemberStateChange)
+			{
+				case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeEntered:
+					sMessage = "est entré dans le lobby.";
+					break;
+				case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeLeft:
+					sMessage = "a quitté le lobby.";
+					break;
+				case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeDisconnected:
+					sMessage = "s'est déconnecté.";
+					break;
+				case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeKicked:
+					sMessage = "a été exclu.";
+					break;
+				case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeBanned:
+					sMessage = "a été banni.";
+					break;
+				default:
+					sMessage = ".";
+					break;
+			}
+
+			string sNom = SteamFriends.GetFriendPersonaName((Steamworks.CSteamID)pCallback.m_ulSteamIDMakingChange);
+
+			Debug.Log(sNom + " " + sMessage);
+
+			LogLobby();
+		}
+	}
+
+	/*______________________________________LES ACTIONS !!!______________________________________*/
+
 	//BUT : Récupérer les lobbys de WorldEasterFight
 	private void RequestLobby()
 	{
 		SteamMatchmaking.AddRequestLobbyListResultCountFilter(-1);
 		SteamMatchmaking.AddRequestLobbyListStringFilter("Name", "WorldEasterFight", Steamworks.ELobbyComparison.k_ELobbyComparisonEqual);
 		SteamMatchmaking.RequestLobbyList();
+	}
+
+	/*______________________________________LES LOGS !!!______________________________________*/
+
+	private void LogLobby()
+	{
+		if (SteamManager.Initialized)
+		{
+			int nbJoueur = SteamMatchmaking.GetNumLobbyMembers(SteamLobby.Instance.steamIDLobby);
+
+			Debug.Log("Nombre de joueurs présents dans le lobby " + nbJoueur + ".");
+
+			for (int i = 0; i < nbJoueur; i++)
+			{
+				Steamworks.CSteamID UserID = SteamMatchmaking.GetLobbyMemberByIndex(SteamLobby.Instance.steamIDLobby, i);
+				Debug.Log("Joueur " + (i + 1) + " :");
+
+				string userName = SteamFriends.GetFriendPersonaName(UserID);
+				Debug.Log("Nom d'utilisateur : " + userName);
+
+				string oldUserName = SteamFriends.GetFriendPersonaNameHistory(UserID, 0);
+				Debug.Log("Ancien nom d'utilisateur : " + oldUserName);
+			}
+
+			if (nbJoueur == 1)//2)
+			{
+				stopCallbacks();
+				SceneManager.LoadScene("Game");
+			}
+		}
 	}
 }

@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Steamworks;
 using System.Text;
+
 
 public abstract class ASteamManager : MonoBehaviour
 {
@@ -84,6 +83,8 @@ public abstract class ASteamManager : MonoBehaviour
 			{
 				Debug.Log("Message reçu.");
 				Debug.Log(sMessage);
+
+				//InviteToLobby(pCallback.m_steamIDUser);
 			}
 		}
 	}
@@ -91,68 +92,80 @@ public abstract class ASteamManager : MonoBehaviour
 	//BUT: Évènement d'entrée et de sortie du lobby.
 	protected void OnLobbyChatUpdate(LobbyChatUpdate_t pCallback)
 	{
-		string sMessage = "";
-		switch ((Steamworks.EChatMemberStateChange)pCallback.m_rgfChatMemberStateChange)
+		if (SteamManager.Initialized)
 		{
-			case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeEntered:
-				sMessage = "est entré dans le lobby.";
-				break;
-			case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeLeft:
-				sMessage = "a quitté le lobby.";
-				break;
-			case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeDisconnected:
-				sMessage = "s'est déconnecté.";
-				break;
-			case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeKicked:
-				sMessage = "a été exclu.";
-				break;
-			case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeBanned:
-				sMessage = "a été banni.";
-				break;
-			default:
-				sMessage = ".";
-				break;
+			string sMessage = "";
+			switch ((Steamworks.EChatMemberStateChange)pCallback.m_rgfChatMemberStateChange)
+			{
+				case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeEntered:
+					sMessage = "est entré dans le lobby.";
+					break;
+				case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeLeft:
+					sMessage = "a quitté le lobby.";
+					break;
+				case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeDisconnected:
+					sMessage = "s'est déconnecté.";
+					break;
+				case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeKicked:
+					sMessage = "a été exclu.";
+					break;
+				case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeBanned:
+					sMessage = "a été banni.";
+					break;
+				default:
+					sMessage = ".";
+					break;
+			}
+
+			string sNom = SteamFriends.GetFriendPersonaName((Steamworks.CSteamID)pCallback.m_ulSteamIDMakingChange);
+
+			Debug.Log(sNom + " " + sMessage);
 		}
-
-		string sNom = SteamFriends.GetFriendPersonaName((Steamworks.CSteamID)pCallback.m_ulSteamIDMakingChange);
-
-		Debug.Log(sNom + " " + sMessage);
 	}
 
 	//BUT: Évènement de réception d'un message du lobby.
 	protected void OnLobbyChatMsg(LobbyChatMsg_t pCallback)
 	{
-		Steamworks.EChatEntryType eChatEntryType;
-		string sMessage;
-		byte[] bytes = new byte[4096];
-		Steamworks.CSteamID steamIDSender;
-		SteamMatchmaking.GetLobbyChatEntry((Steamworks.CSteamID)pCallback.m_ulSteamIDLobby, (int)pCallback.m_iChatID, out steamIDSender, bytes, 4096, out eChatEntryType);
-		sMessage = Encoding.Default.GetString(bytes);
-		Debug.Log("Message reçu du lobby : " + sMessage);
+		if (SteamManager.Initialized)
+		{
+			Steamworks.EChatEntryType eChatEntryType;
+			string sMessage;
+			byte[] bytes = new byte[4096];
+			Steamworks.CSteamID steamIDSender;
+			SteamMatchmaking.GetLobbyChatEntry((Steamworks.CSteamID)pCallback.m_ulSteamIDLobby, (int)pCallback.m_iChatID, out steamIDSender, bytes, 4096, out eChatEntryType);
+			sMessage = Encoding.Default.GetString(bytes);
+			Debug.Log("Message reçu du lobby : " + sMessage);
+		}
 	}
 
 	//BUT: Évènement de mise à jour des données du lobby.
 	protected void OnLobbyDataUpdate(LobbyDataUpdate_t pCallback)
 	{
-		string sLobby = pCallback.m_ulSteamIDLobby.ToString();
-		string sMember = pCallback.m_ulSteamIDMember.ToString();
-		if (pCallback.m_bSuccess == 1)
+		if (SteamManager.Initialized)
 		{
-			Debug.Log("Le lobby " + sLobby + " a été modifié par le membre " + sMember + " avec succès.");
-		}
-		else
-		{
-			Debug.Log("Le lobby " + sLobby + " a été modifié par le membre " + sMember + " sans succès.");
+			string sLobby = pCallback.m_ulSteamIDLobby.ToString();
+			string sMember = pCallback.m_ulSteamIDMember.ToString();
+			if (pCallback.m_bSuccess == 1)
+			{
+				Debug.Log("Le lobby " + sLobby + " a été modifié par le membre " + sMember + " avec succès.");
+			}
+			else
+			{
+				Debug.Log("Le lobby " + sLobby + " a été modifié par le membre " + sMember + " sans succès.");
+			}
 		}
 	}
 
 	//BUT: Évènement de réception d'une invitation au lobby.
 	protected void OnLobbyInvite(LobbyInvite_t pCallback)
 	{
-		string sNom = SteamFriends.GetFriendPersonaName((Steamworks.CSteamID)pCallback.m_ulSteamIDUser);
-		string sLobby = pCallback.m_ulSteamIDLobby.ToString();
-		string sGame = pCallback.m_ulGameID.ToString();
-		Debug.Log(sNom + " vous a invité au lobby : " + sLobby + " sur le jeu : " + sGame + ".");
+		if (SteamManager.Initialized)
+		{
+			string sNom = SteamFriends.GetFriendPersonaName((Steamworks.CSteamID)pCallback.m_ulSteamIDUser);
+			string sLobby = pCallback.m_ulSteamIDLobby.ToString();
+			string sGame = pCallback.m_ulGameID.ToString();
+			Debug.Log(sNom + " vous a invité au lobby : " + sLobby + " sur le jeu : " + sGame + ".");
+		}
 	}
 
 	/*______________________________________LES ACTIONS !!!______________________________________*/
@@ -173,31 +186,40 @@ public abstract class ASteamManager : MonoBehaviour
 	//BUT : Créer un lobby.
 	protected void CreateLobby()
 	{
-		//En faire un Singleton
-		LeaveLobby();
-		hSteamAPICall = SteamMatchmaking.CreateLobby(Steamworks.ELobbyType.k_ELobbyTypePublic, 2);
+		if (SteamManager.Initialized)
+		{
+			//En faire un Singleton
+			LeaveLobby();
+			hSteamAPICall = SteamMatchmaking.CreateLobby(Steamworks.ELobbyType.k_ELobbyTypePublic, 2);
+		}
 	}
 
 	//BUT : Rejoindre un lobby.
 	public void JoinLobby(Steamworks.CSteamID idLobby)
 	{
-		//En faire un Singleton
-		LeaveLobby();
-		hSteamAPICall = SteamMatchmaking.JoinLobby(idLobby);
+		if (SteamManager.Initialized)
+		{
+			//En faire un Singleton
+			LeaveLobby();
+			hSteamAPICall = SteamMatchmaking.JoinLobby(idLobby);
+		}
 	}
 
 	//BUT : Inviter un jouer à un lobby.
 	public void InviteToLobby(Steamworks.CSteamID idFriend)
 	{
-		if (SteamLobby.Instance.steamIDLobby != (Steamworks.CSteamID)0)
+		if (SteamManager.Initialized)
 		{
-			if (SteamMatchmaking.InviteUserToLobby(SteamLobby.Instance.steamIDLobby, idFriend))
+			if (SteamLobby.Instance.steamIDLobby != (Steamworks.CSteamID)0)
 			{
-				Debug.Log("Joueur invité au lobby !");
-			}
-			else
-			{
-				Debug.Log("Échec dans l'invitation au lobby !");
+				if (SteamMatchmaking.InviteUserToLobby(SteamLobby.Instance.steamIDLobby, idFriend))
+				{
+					Debug.Log("Joueur invité au lobby !");
+				}
+				else
+				{
+					Debug.Log("Échec dans l'invitation au lobby !");
+				}
 			}
 		}
 	}
@@ -205,8 +227,27 @@ public abstract class ASteamManager : MonoBehaviour
 	//BUT : Envoyer un message dans le lobby.
 	public void SendMessageToLobby(string sMessage)
 	{
-		byte[] bytes = new byte[4096];
-		bytes = Encoding.Default.GetBytes(sMessage);
-		SteamMatchmaking.SendLobbyChatMsg(SteamLobby.Instance.steamIDLobby, bytes, 4096);
+		if (SteamManager.Initialized)
+		{
+			byte[] bytes = new byte[4096];
+			bytes = Encoding.Default.GetBytes(sMessage);
+			SteamMatchmaking.SendLobbyChatMsg(SteamLobby.Instance.steamIDLobby, bytes, 4096);
+		}
+	}
+
+	//BUT : Arrêter les callbacks.
+	protected void stopCallbacks()
+	{
+		if (SteamManager.Initialized)
+		{
+			m_LobbyMatchList = null;
+			m_LobbyCreated = null;
+			m_LobbyEntered = null;
+			m_LobbyChatUpdate = null;
+			m_LobbyChatMsg = null;
+			m_LobbyDataUpdate = null;
+			m_LobbyInvite = null;
+			m_GameConnectedFriendChatMsg = null;
+		}
 	}
 }
