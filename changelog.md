@@ -1,3 +1,7 @@
+## [0.2.1] - 2022-07-03 - G.P.
+###Modification
+-Finalisation du systeme de dessin
+
 ## [0.1.1] - 2022-02-03 - G.P.
 ###Ajout
 -Création des tableaux d'équilibrage

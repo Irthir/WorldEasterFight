@@ -7,12 +7,12 @@ public class GameManager : MonoBehaviour
 {
     public enum CurrentPlayer { Poule, Lapin, None }// pour pas que le joueur joue les deux perso
     public CurrentPlayer WhoIsPlayer;
-    
+
 
     public enum GameStat { ReStart, Draw, Fight, Result }// Etat actuel du combat -> LE MEME POUR TOUT LES JOUEURS 
     public GameStat CurrentStat;
 
-    public enum Action {Aucune, Attaque1, Attaque2, Defense1, Defense2, Heal }
+    public enum Action { Aucune, Attaque1, Attaque2, Defense1, Defense2, Heal }
     public Action PouleAction;
     public Action LapinAction;
 
@@ -23,12 +23,15 @@ public class GameManager : MonoBehaviour
     public GameObject PlayerLapinGrid;
     public SpriteRenderer[] T_PlayerLapinGrid;
 
+    public int[] T_PouleDrawing = { -1, -1, -1 };
+    public int[] T_LapinDrawing = { -1, -1, -1 };
+
     public TextMeshProUGUI WhoIsPlayerTxT;
     public TextMeshProUGUI PaTXT;
 
     public Animator animPoule;
 
-    public int[ , ] T_Drawings = {
+    public int[,] T_Drawings = {
         //Attaques
         {0, 1, 2 },         //Attaque haute
         {0, 3, 6 },         //Attaque gauche
@@ -81,10 +84,10 @@ public class GameManager : MonoBehaviour
                 //Debug.Log("Couleur apres : " + T_PlayerPouleGrid[i].color);
             }
 
-            
+
 
         }
-        else if(CurrentStat == GameStat.Draw)
+        else if (CurrentStat == GameStat.Draw)
         {
             drawPhase();
 
@@ -122,69 +125,18 @@ public class GameManager : MonoBehaviour
 
     void drawPhase()
     {
-        // POUR LA POULE
+
         if (Input.GetMouseButtonDown(0))
         {
-
+            // POUR LA POULE
             if (WhoIsPlayer == CurrentPlayer.Poule)
             {
-
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hitInfo;
-                if (Physics.Raycast(ray, out hitInfo))
-                {
-                    if (hitInfo.collider.gameObject.tag == "Grid")
-                    {
-                        if (PlayerPoule.GetComponent<PlayerControl>().ActionPoint > 0 && hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color != Color.black)
-                        {
-                            //Debug.Log("Clic sur " + hitInfo.collider.gameObject.name + "Devient Noir");
-                            hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.black;
-                            PlayerPoule.GetComponent<PlayerControl>().ActionPoint--;
-
-                            if(PlayerPoule.GetComponent<PlayerControl>().ActionPoint <= 0) {
-                                
-                            }
-                        }
-                        else if (PlayerPoule.GetComponent<PlayerControl>().ActionPoint < 3 && hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color != Color.white)
-                        {
-                            //Debug.Log("Clic sur " + hitInfo.collider.gameObject.name + "Devient Blanc");
-                            hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-                            PlayerPoule.GetComponent<PlayerControl>().ActionPoint++;
-                        }
-                        else
-                        {
-                            Debug.Log("Plus de PA ! ");
-                        }
-                    }
-                }
+                playerDrawing(PlayerPoule, T_PlayerPouleGrid, out T_PouleDrawing);
             }
             //POUR LE LAPIN 
             if (WhoIsPlayer == CurrentPlayer.Lapin)
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hitInfo;
-                if (Physics.Raycast(ray, out hitInfo))
-                {
-                    if (hitInfo.collider.gameObject.tag == "Grid")
-                    {
-                        if (PlayerLapin.GetComponent<PlayerControl>().ActionPoint > 0 && hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color != Color.black)
-                        {
-                            //Debug.Log("Clic sur " + hitInfo.collider.gameObject.name + "Devient Noir (lapin)");
-                            hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.black;
-                            PlayerLapin.GetComponent<PlayerControl>().ActionPoint--;
-                        }
-                        else if (PlayerLapin.GetComponent<PlayerControl>().ActionPoint < 3 && hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color != Color.white)
-                        {
-                            //Debug.Log("Clic sur " + hitInfo.collider.gameObject.name + "Devient Blanc (lapin)");
-                            hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-                            PlayerLapin.GetComponent<PlayerControl>().ActionPoint++;
-                        }
-                        else
-                        {
-                            Debug.Log("Plus de PA ! ");
-                        }
-                    }
-                }
+                playerDrawing(PlayerLapin, T_PlayerLapinGrid, out   T_LapinDrawing);
             }
         }
 
@@ -195,6 +147,76 @@ public class GameManager : MonoBehaviour
             CurrentStat = GameStat.Fight;
         }
     }
+
+
+    void playerDrawing(GameObject PlayerObject, SpriteRenderer[] T_PlayerGrid, out int[] T_PlayerDrawing)
+    {
+        int i;
+        int numDrawing;
+        int j = 0;
+        int[] T_BaseDrawing = { -1, -1, -1 };
+        T_PlayerDrawing = T_BaseDrawing;
+
+        AttaqueV3 PlayerAttack
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hitInfo;
+
+        if (Physics.Raycast(ray, out hitInfo))
+        {
+            if (hitInfo.collider.gameObject.tag == "Grid")
+            {
+                if (PlayerObject.GetComponent<PlayerControl>().ActionPoint > 0 && hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color != Color.black)
+                {
+
+                    //Debug.Log("Clic sur " + hitInfo.collider.gameObject.name + ": Devient Noir");
+                    hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+                    PlayerObject.GetComponent<PlayerControl>().ActionPoint--;
+
+                    //Validation du dessin
+                    if (PlayerObject.GetComponent<PlayerControl>().ActionPoint <= 0)
+                    {
+                        for (i = 0; i < T_PlayerGrid.Length; i++)
+                        {
+                            if (T_PlayerGrid[i].color == Color.black)
+                            {
+                                T_PlayerDrawing[j] = i;
+                                j++;
+                            }
+                        }
+
+                        numDrawing = ValidDrawing(T_PlayerDrawing);
+
+                        if (numDrawing != -1) {
+                            Debug.Log("Dessin n°" + numDrawing);
+                            PlayerAttack.Case1 = T_PlayerDrawing[1];
+                            PlayerAttack.Case2 = T_PlayerDrawing[2];
+                            PlayerAttack.Case3 = T_PlayerDrawing[3];
+                        } else {
+                            Debug.Log("Dessin invalide");
+                            PlayerObject.GetComponent<PlayerControl>().ActionPoint = 3;
+                            for(i=0; i<T_PlayerGrid.Length; i++)
+                            {
+                                T_PlayerGrid[i].color = Color.white;
+                            }
+                        }
+
+                    }
+                }
+                else if (PlayerObject.GetComponent<PlayerControl>().ActionPoint < 3 && hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color != Color.white)
+                {
+                    //Debug.Log("Clic sur " + hitInfo.collider.gameObject.name + "Devient Blanc");
+                    hitInfo.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                    PlayerObject.GetComponent<PlayerControl>().ActionPoint++;
+                }
+                else
+                {
+                    Debug.Log("Plus de PA ! ");
+                }
+            }
+        }
+    }
+
 
     void resultPhase()
     {
@@ -236,7 +258,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("ATTAQUE 1 DU LAPIN !");
             LapinAction = Action.Attaque1;
-            
+
         }
         else if (T_PlayerLapinGrid[2].color == Color.black && T_PlayerLapinGrid[5].color == Color.black && T_PlayerLapinGrid[8].color == Color.black)
         {
@@ -290,13 +312,16 @@ public class GameManager : MonoBehaviour
         //After we have waited 5 seconds print the time again.
     }
 
-    bool ValidDrawing(int [] T_PlayerDrawing) {
+    int ValidDrawing(int[] T_PlayerDrawing)
+    {
         int i;
-        bool valid = false;
+        int valid = -1;
 
-        for(i = 0; i < 12; i++) {
-            if(T_PlayerDrawing[0] == T_Drawings[i, 0] && T_PlayerDrawing[1] == T_Drawings[i, 1] && T_PlayerDrawing[2] == T_Drawings[i, 2]) {
-                valid = true;
+        for (i = 0; i < 16; i++)
+        {
+            if (T_PlayerDrawing[0] == T_Drawings[i, 0] && T_PlayerDrawing[1] == T_Drawings[i, 1] && T_PlayerDrawing[2] == T_Drawings[i, 2])
+            {
+                valid = i;
                 break;
             }
         }
