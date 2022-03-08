@@ -293,6 +293,8 @@ public class GameManager : MonoBehaviour
 
         }
 
+        PlayerLapinGrid.SetActive(false);
+        PlayerPouleGrid.SetActive(false);
         ResultGrid.SetActive(true);
 
         
@@ -360,8 +362,7 @@ public class GameManager : MonoBehaviour
     IEnumerator TimeCoroutine()
     {
         //Print the time of when the function is first called.
-        PlayerLapinGrid.SetActive(false);
-        PlayerPouleGrid.SetActive(false);
+        
 
 
         //yield on a new YieldInstruction that waits for 5 seconds.
@@ -383,7 +384,12 @@ public class GameManager : MonoBehaviour
         {
             PlayerPoule.GetComponent<PlayerControl>().ThisPlayerGetHit = true;
         }*/
-        CurrentStat = GameStat.ReStart;
+
+        if(PlayerPoule.GetComponent<PlayerControl>().Life <= 0 || PlayerLapin.GetComponent<PlayerControl>().Life <= 0) {
+            EndGame();
+        } else {
+            CurrentStat = GameStat.ReStart;
+        }
 
         //After we have waited 5 seconds print the time again.
     }
@@ -424,6 +430,12 @@ public class GameManager : MonoBehaviour
 
             bReceptionReseau = true;
         }
+    }
+
+
+    void EndGame()
+    {
+        //ROMAIN TU FAIS CE QUE TU VEUX LA DEDANS
     }
 
 }
