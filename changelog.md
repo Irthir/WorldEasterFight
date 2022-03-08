@@ -1,6 +1,8 @@
 ## [0.0.8] - 2022-08-03 - R.S.
 ### Ajout
 -Mise en place de la réception de l'évènement d'attaque dans le gamemanager.
+-Mise en place de la réception de l'évènement de déconnexion dans la scène Game.
+-Mise en place de l'envoie de l'attaque en réseau et de sa réception.
 
 ## [0.3.1] - 2022-07-03 - G.P.
 ### Ajout

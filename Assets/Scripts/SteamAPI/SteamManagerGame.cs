@@ -18,17 +18,6 @@ public class SteamManagerGame : ASteamManager
         {
             Debug.Log("Session trouvée.");
         }
-
-        if (SteamManager.Initialized)
-        {
-
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     /*______________________________________LES ÉVÈNEMENTS !!!______________________________________*/
@@ -45,8 +34,55 @@ public class SteamManagerGame : ASteamManager
             SteamMatchmaking.GetLobbyChatEntry((Steamworks.CSteamID)pCallback.m_ulSteamIDLobby, (int)pCallback.m_iChatID, out steamIDSender, bytes, 4096, out eChatEntryType);
             sMessage = Encoding.Default.GetString(bytes);
             Debug.Log("Message reçu du lobby : " + sMessage);
-            AttaqueV3 attaqueV3 = AttaqueV3.FromString(sMessage);
-            //Appeler le GameManager pour lui envoyer l'info de l'attaque adverse.
+
+            if (steamIDSender != SteamUser.GetSteamID())
+            //Si nous ne sommes pas sur une attaque nous avons envoyé.
+            {
+                AttaqueV3 attaqueV3 = AttaqueV3.FromString(sMessage);
+
+                GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+                if (gameManager!=null)
+                {
+                    gameManager.ReceptionAttaqueReseau(attaqueV3);
+                }
+                //Appeler le GameManager pour lui envoyer l'info de l'attaque adverse.
+            }
+        }
+    }
+
+    //BUT: Évènement d'entrée et de sortie du lobby.
+    new private void OnLobbyChatUpdate(LobbyChatUpdate_t pCallback)
+    {
+        if (SteamManager.Initialized)
+        {
+            string sMessage = "";
+            switch ((Steamworks.EChatMemberStateChange)pCallback.m_rgfChatMemberStateChange)
+            {
+                case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeEntered:
+                    sMessage = "Erreur quelqu'un est entré dans le lobby.";
+                    break;
+                case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeLeft:
+                    sMessage = "Erreur quelqu'un a quitté le lobby.";
+                    LeaveLobby();
+                    break;
+                case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeDisconnected:
+                    sMessage = "Erreur quelqu'un s'est déconnecté.";
+                    LeaveLobby();
+                    break;
+                case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeKicked:
+                    sMessage = "Erreur quelqu'un a été exclu.";
+                    LeaveLobby();
+                    break;
+                case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeBanned:
+                    sMessage = "Erreur quelqu'un a été banni.";
+                    LeaveLobby();
+                    break;
+                default:
+                    sMessage = "Erreur quelque chose s'est passé.";
+                    break;
+            }
+
+            Debug.Log(sMessage);
         }
     }
 
