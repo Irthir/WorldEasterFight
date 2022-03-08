@@ -1,3 +1,8 @@
+## [0.5.2] - 2022-08-03 - G.P.
+###Ajout
+-Systeme de verification des dessins
+-Actions joueurs
+
 ## [0.4.1] - 2022-08-03 - G.P.
 ### Ajout
 -Ajout de la condition de fin.

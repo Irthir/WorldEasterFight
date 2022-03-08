@@ -12,9 +12,8 @@ public class GameManager : MonoBehaviour
     public enum GameStat { ReStart, Draw, Wait, Fight, Result }// Etat actuel du combat -> LE MEME POUR TOUT LES JOUEURS 
     public GameStat CurrentStat;
 
-    public enum Action { Aucune, Attaque1, Attaque2, Defense1, Defense2, Heal }
-    public Action PouleAction;
-    public Action LapinAction;
+    public int PouleAction;
+    public int LapinAction;
 
     public GameObject PlayerPoule;
     public GameObject PlayerPouleGrid;
@@ -389,29 +388,146 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator TimeCoroutine()
     {
+        int i;
+        int nbCollide;
+        bool tapePoule = false;
+        bool tapeLapin = false;
+        bool healPoule = false;
+        bool healLapin = false;
+
+
         //Print the time of when the function is first called.
+
+        //On compte le nombre de cases en commun entre les deux joueurs
+        nbCollide = 0;
+        for (i=0; i<T_ResultGrid.Length; i++) {
+            if (T_ResultGrid[i].color == Color.yellow) {
+                nbCollide++;
+            }
+        }
+
+        //ACTION DE DEFENSE
+        if (PouleAction == 2 ^ LapinAction == 2) {
+            if (PouleAction == 2) {
+                if(nbCollide == 2) {
+                    LapinAction = 0;
+                    tapeLapin = true;
+                } else {
+                    PouleAction = 0;
+                }
+            } else {
+                if (nbCollide == 2) {
+                    PouleAction = 0;
+                    tapePoule = true;
+                } else {
+                    LapinAction = 0;
+                }
+            }
+
+            nbCollide = 0;
+            
+        }
+
+
+
+        //ACTION D'ESQUIVE
+        if(PouleAction == 3 || LapinAction == 3) {
+            if(PouleAction == 3) {
+                if(nbCollide == 1) {
+                    LapinAction = 0;
+                }
+                if(nbCollide == 2) {
+                    healPoule = true;
+                }
+            }
+            if(LapinAction == 3) {
+                if(nbCollide == 1) {
+                    PouleAction = 0;
+                }
+                if(nbCollide == 2) {
+                    healLapin = true;
+                }
+            }
+
+            if (LapinAction == 0 || PouleAction == 0) {
+                nbCollide = 0;
+            }
+        }
+
+
+
+        //ACTION D'ATTAQUE
+        if(PouleAction == 1 || LapinAction == 1) {
+            if(nbCollide == 0) {
+                if(PouleAction == 1) {
+                    tapeLapin = true;
+                }
+                if(LapinAction == 1) {
+                    tapePoule = true;
+                }
+            }
+        }
+
+
+
+        //ACTION DE SOIN
+        if(PouleAction == 4 || LapinAction == 4) {
+            if(nbCollide < 2) {
+                if(PouleAction == 4) {
+                    healPoule = true;
+                }
+                if(LapinAction == 4) {
+                    healLapin = true;
+                }
+            }
+        }
+
+
+        yield return new WaitForSeconds(2);
+
+        for (i=0; i<T_ResultGrid.Length; i++) {
+            if(LapinAction == 0) {
+                if(T_ResultGrid[i].color == Color.yellow) {
+                    T_ResultGrid[i].color = Color.red;
+                }
+                if (T_ResultGrid[i].color == Color.green) {
+                    T_ResultGrid[i].color = Color.white;
+                }
+            } else {
+                if (T_ResultGrid[i].color == Color.yellow) {
+                    T_ResultGrid[i].color = Color.green;
+                }
+                if (T_ResultGrid[i].color == Color.red) {
+                    T_ResultGrid[i].color = Color.white;
+                }
+            }
+        }
+
+
         
 
 
         //yield on a new YieldInstruction that waits for 5 seconds.
         yield return new WaitForSeconds(2);
-        /*if (PouleAction == Action.Attaque1 && LapinAction != Action.Defense1)
-        {
-            PlayerLapin.GetComponent<PlayerControl>().ThisPlayerGetHit = true;
+        
+        if(tapeLapin) {
+            PlayerLapin.GetComponent<PlayerControl>().Life--;
         }
-        else if (PouleAction == Action.Attaque2 && LapinAction != Action.Defense2)
-        {
-            PlayerLapin.GetComponent<PlayerControl>().ThisPlayerGetHit = true;
+        if(tapePoule) {
+            PlayerPoule.GetComponent<PlayerControl>().Life--;
+        }
+        if(healLapin) {
+            if(PlayerLapin.GetComponent<PlayerControl>().Life < 3) {
+                PlayerLapin.GetComponent<PlayerControl>().Life++;
+            }
+        }
+        if(healPoule) {
+            if(PlayerPoule.GetComponent<PlayerControl>().Life < 3) {
+                PlayerPoule.GetComponent<PlayerControl>().Life++;
+            }
         }
 
-        if (LapinAction == Action.Attaque1 && PouleAction != Action.Defense1)
-        {
-            PlayerPoule.GetComponent<PlayerControl>().ThisPlayerGetHit = true;
-        }
-        else if (LapinAction == Action.Attaque2 && PouleAction != Action.Defense2)
-        {
-            PlayerPoule.GetComponent<PlayerControl>().ThisPlayerGetHit = true;
-        }*/
+
 
         if(PlayerPoule.GetComponent<PlayerControl>().Life <= 0 || PlayerLapin.GetComponent<PlayerControl>().Life <= 0) {
             EndGame();
@@ -447,18 +563,29 @@ public class GameManager : MonoBehaviour
             //ICI GAETAN UTILISER L'ATTAQUE V3 POUR METTRE EN PLACE L'ATTAQUE DE L'ADVERSAIRE.
             if (WhoIsPlayer == CurrentPlayer.Poule)
             {
-                //Le joueur est la poule, donc l'attaque reçue en réseau s'applique au lapin.
+                //Le joueur est la poule, donc l'attaque reçue en réseau s'applique au lapin
+                LapinAction = attaqueV3.Type;
+                T_LapinDrawing[0] = attaqueV3.Case1;
+                T_LapinDrawing[1] = attaqueV3.Case2;
+                T_LapinDrawing[2] = attaqueV3.Case3;
+
 
             }
             else if (WhoIsPlayer == CurrentPlayer.Lapin)
             {
                 //Le joueur est le lapin, donc l'attaque reçue en réseau s'applique à la poule.
+                PouleAction = attaqueV3.Type;
+                T_PouleDrawing[0] = attaqueV3.Case1;
+                T_PouleDrawing[1] = attaqueV3.Case2;
+                T_PouleDrawing[2] = attaqueV3.Case3;
+
 
             }
 
             bReceptionReseau = true;
         }
     }
+
 
 
     //BUT : Mettre fin au réseau, au jeu, et rediriger à l'écran titre.
