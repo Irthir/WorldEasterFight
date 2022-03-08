@@ -81,19 +81,19 @@ public class SteamManagerGame : ASteamManager
                     break;
                 case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeLeft:
                     sMessage = "Erreur quelqu'un a quitté le lobby.";
-                    LeaveLobby();
+                    endLobby();
                     break;
                 case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeDisconnected:
                     sMessage = "Erreur quelqu'un s'est déconnecté.";
-                    LeaveLobby();
+                    endLobby();
                     break;
                 case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeKicked:
                     sMessage = "Erreur quelqu'un a été exclu.";
-                    LeaveLobby();
+                    endLobby();
                     break;
                 case Steamworks.EChatMemberStateChange.k_EChatMemberStateChangeBanned:
                     sMessage = "Erreur quelqu'un a été banni.";
-                    LeaveLobby();
+                    endLobby();
                     break;
                 default:
                     sMessage = "Erreur quelque chose s'est passé.";
@@ -124,5 +124,7 @@ public class SteamManagerGame : ASteamManager
     public void endLobby()
     {
         LeaveLobby();
+        //Redirection de fin de jeu.
+        SceneManager.LoadScene("TitleScreen");
     }
 }
