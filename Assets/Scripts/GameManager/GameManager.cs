@@ -523,17 +523,21 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         
         if(tapeLapin) {
+            Debug.Log("Degats sur le lapin");
             PlayerLapin.GetComponent<PlayerControl>().Life--;
         }
         if(tapePoule) {
+            Debug.Log("Degats sur la poule");
             PlayerPoule.GetComponent<PlayerControl>().Life--;
         }
         if(healLapin) {
-            if(PlayerLapin.GetComponent<PlayerControl>().Life < 3) {
+            Debug.Log("Soin sur le lapin");
+            if (PlayerLapin.GetComponent<PlayerControl>().Life < 3) {
                 PlayerLapin.GetComponent<PlayerControl>().Life++;
             }
         }
         if(healPoule) {
+            Debug.Log("Soins sur le lapin");
             if(PlayerPoule.GetComponent<PlayerControl>().Life < 3) {
                 PlayerPoule.GetComponent<PlayerControl>().Life++;
             }
