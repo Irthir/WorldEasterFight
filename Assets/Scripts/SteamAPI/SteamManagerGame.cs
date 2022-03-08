@@ -20,6 +20,16 @@ public class SteamManagerGame : ASteamManager
         }
     }
 
+    private void OnEnable()
+    {
+        base.OnEnable();
+        if (SteamManager.Initialized)
+        {
+            m_LobbyChatUpdate = Callback<LobbyChatUpdate_t>.Create(OnLobbyChatUpdate);
+            m_LobbyChatMsg = Callback<LobbyChatMsg_t>.Create(OnLobbyChatMsg);
+        }
+    }
+
     /*______________________________________LES ÉVÈNEMENTS !!!______________________________________*/
 
     //BUT: Évènement de réception d'un message du lobby.
@@ -34,6 +44,9 @@ public class SteamManagerGame : ASteamManager
             SteamMatchmaking.GetLobbyChatEntry((Steamworks.CSteamID)pCallback.m_ulSteamIDLobby, (int)pCallback.m_iChatID, out steamIDSender, bytes, 4096, out eChatEntryType);
             sMessage = Encoding.Default.GetString(bytes);
             Debug.Log("Message reçu du lobby : " + sMessage);
+
+            Debug.Log("ID Notre : "+ (Steamworks.CSteamID)SteamUser.GetSteamID());
+            Debug.Log("ID Envoie : "+ steamIDSender);
 
             if (steamIDSender != (Steamworks.CSteamID)SteamUser.GetSteamID())
             //Si nous ne sommes pas sur une attaque nous avons envoyé.
