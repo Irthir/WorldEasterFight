@@ -172,7 +172,7 @@ public class SteamManagerMenu : ASteamManager
 	public void RequestLobby()
 	{
 		SteamMatchmaking.AddRequestLobbyListResultCountFilter(-1);
-		//SteamMatchmaking.AddRequestLobbyListStringFilter("Name", "WorldEasterFight", Steamworks.ELobbyComparison.k_ELobbyComparisonEqual);
+		SteamMatchmaking.AddRequestLobbyListStringFilter("Name", "WorldEasterFight", Steamworks.ELobbyComparison.k_ELobbyComparisonEqual);
 		SteamMatchmaking.RequestLobbyList();
 	}
 
@@ -199,7 +199,7 @@ public class SteamManagerMenu : ASteamManager
 				Debug.Log("Ancien nom d'utilisateur : " + oldUserName);
 			}
 
-			if (nbJoueur == 1)//2)
+			if (nbJoueur == 2)
 			{
 				setPlayer();
 				stopCallbacks();
