@@ -88,6 +88,7 @@ public class SteamManagerGame : ASteamManager
 
     /*______________________________________LES ACTIONS !!!______________________________________*/
 
+    //BUT : Envoyer une action au 
     public bool sendActionToSteamNetwork(AttaqueV3 aAction)
     {
         if (SteamManager.Initialized)
@@ -101,6 +102,7 @@ public class SteamManagerGame : ASteamManager
         }
     }
 
+    //BUT : Mettre fin au lobby.
     public void endLobby()
     {
         LeaveLobby();
