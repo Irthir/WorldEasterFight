@@ -413,6 +413,7 @@ public class GameManager : MonoBehaviour
         //ACTION DE DEFENSE
         if (PouleAction == 2 ^ LapinAction == 2) {
             if (PouleAction == 2) {
+                Debug.Log("Poule: Defense");
                 animPoule.SetBool("Defense1", true);
                 if (nbCollide == 2) {
                     LapinAction = 0;
@@ -421,6 +422,7 @@ public class GameManager : MonoBehaviour
                     PouleAction = 0;
                 }
             } else {
+                Debug.Log("Lapin: Defense");
                 if (nbCollide == 2) {
                     PouleAction = 0;
                     tapePoule = true;
@@ -438,6 +440,7 @@ public class GameManager : MonoBehaviour
         //ACTION D'ESQUIVE
         if(PouleAction == 3 || LapinAction == 3) {
             if(PouleAction == 3) {
+                Debug.Log("Poule: Esquive");
                 animPoule.SetBool("Attaque2", true);
                 if (nbCollide == 1) {
                     LapinAction = 0;
@@ -447,6 +450,7 @@ public class GameManager : MonoBehaviour
                 }
             }
             if(LapinAction == 3) {
+                Debug.Log("Lapin: Esquive");
                 if (nbCollide == 1) {
                     PouleAction = 0;
                 }
@@ -465,13 +469,15 @@ public class GameManager : MonoBehaviour
         //ACTION D'ATTAQUE
         if(PouleAction == 1 || LapinAction == 1) {
             if(PouleAction == 1) {
+                Debug.Log("Poule: Attaque");
                 animPoule.SetBool("Attaque1", true);
                 if(nbCollide == 0) { 
                     tapeLapin = true;
                 }
             }
             if(LapinAction == 1) {
-                if(nbCollide == 0) { 
+                Debug.Log("Lapin: Attaque");
+                if (nbCollide == 0) { 
                     tapePoule = true;
                 }
             }
@@ -482,13 +488,15 @@ public class GameManager : MonoBehaviour
         //ACTION DE SOIN
         if(PouleAction == 4 || LapinAction == 4) {
             if(PouleAction == 1) {
+                Debug.Log("Poule: Soin");
                 animPoule.SetBool("Defense2", true);
                 if(nbCollide < 2) { 
                     healPoule = true;
                 }
             }
             if(LapinAction == 1) {
-                if(nbCollide < 2) { 
+                Debug.Log("Lapin: Soin");
+                if (nbCollide < 2) { 
                     healLapin = true;
                 }
             }
