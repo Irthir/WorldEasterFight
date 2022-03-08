@@ -41,12 +41,10 @@ public class SteamManagerMenu : ASteamManager
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			CreateLobby();
 		}
 
 		if (Input.GetKeyDown(KeyCode.R))
 		{
-			RequestLobby();
 		}
 
 		if (Input.GetKeyDown(KeyCode.Q))
@@ -171,7 +169,7 @@ public class SteamManagerMenu : ASteamManager
 	/*______________________________________LES ACTIONS !!!______________________________________*/
 
 	//BUT : R�cup�rer les lobbys de WorldEasterFight
-	private void RequestLobby()
+	public void RequestLobby()
 	{
 		SteamMatchmaking.AddRequestLobbyListResultCountFilter(-1);
 		//SteamMatchmaking.AddRequestLobbyListStringFilter("Name", "WorldEasterFight", Steamworks.ELobbyComparison.k_ELobbyComparisonEqual);
@@ -224,5 +222,10 @@ public class SteamManagerMenu : ASteamManager
 				SteamLobby.Instance.sJoueur = "Poule";
 			}
 		}
+	}
+	//BUT : Créer un lobby.
+	new public void CreateLobby()
+	{
+		base.CreateLobby();
 	}
 }
