@@ -151,12 +151,8 @@ public class GameManager : MonoBehaviour
                 break;
             case GameStat.Fight:
                 resultPhase();
-<<<<<<< Updated upstream
-                //CurrentStat = GameStat.Result;
-=======
                 CurrentStat = GameStat.Result;
                 bReceptionReseau = false;
->>>>>>> Stashed changes
                 break;
         }
 
