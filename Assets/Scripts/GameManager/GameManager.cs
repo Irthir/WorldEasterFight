@@ -108,16 +108,14 @@ public class GameManager : MonoBehaviour
                     if(T_PlayerPouleGrid[i].color == Color.white) {
                         T_PlayerPouleGrid[i].color = Color.white;
                     } else {
-                        T_PlayerPouleGrid[i].color = Color.red;
+                        T_PlayerPouleGrid[i].color = Color.gray;
                     }
 
                     if (T_PlayerLapinGrid[i].color == Color.white) {
                         T_PlayerLapinGrid[i].color = Color.white;
                     } else {
-                        T_PlayerLapinGrid[i].color = Color.red;
+                        T_PlayerLapinGrid[i].color = Color.gray;
                     }
-
-                    WhoIsPlayer = CurrentPlayer.Poule;
                     
                     //Debug.Log("Couleur apres : " + T_PlayerPouleGrid[i].color);
                 }
@@ -266,7 +264,7 @@ public class GameManager : MonoBehaviour
                             Debug.Log("Dessin invalide");
                             PlayerObject.GetComponent<PlayerControl>().ActionPoint = 3;
                             for(i=0; i<T_PlayerGrid.Length; i++) {
-                                if (T_PlayerGrid[i].color != Color.red) {
+                                if (T_PlayerGrid[i].color != Color.gray) {
                                     T_PlayerGrid[i].color = Color.white;
                                 }
                             }
