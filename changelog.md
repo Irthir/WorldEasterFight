@@ -1,3 +1,7 @@
+## [0.0.8] - 2022-08-03 - R.S.
+### Ajout
+-Mise en place de la réception de l'évènement d'attaque dans le gamemanager.
+
 ## [0.3.1] - 2022-07-03 - G.P.
 ### Ajout
 -Ajout du système empêchant au joueur de réutiliser deux fois la même case 2 tours d'affilée
@@ -13,6 +17,7 @@
 -Mise en place la liaison entre la scène de menu et la scène de jeu.
 -Mise en place de la communication pour les attaques des joueurs.
 -Mise en place de la détermination du joueur pour le jeu.
+-Mise en place du choix du personnage au démarrage de la scène du jeu.
 ### Modification
 -Correction d'un bug sur le gamemanager.
 

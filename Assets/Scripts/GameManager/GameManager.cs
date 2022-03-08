@@ -8,8 +8,7 @@ public class GameManager : MonoBehaviour
     public enum CurrentPlayer { Poule, Lapin, None }// pour pas que le joueur joue les deux perso
     public CurrentPlayer WhoIsPlayer;
 
-
-    public enum GameStat { ReStart, Draw, Fight, Result }// Etat actuel du combat -> LE MEME POUR TOUT LES JOUEURS 
+    public enum GameStat { ReStart, Draw, Wait, Fight, Result }// Etat actuel du combat -> LE MEME POUR TOUT LES JOUEURS 
     public GameStat CurrentStat;
 
     public enum Action { Aucune, Attaque1, Attaque2, Defense1, Defense2, Heal }
@@ -57,12 +56,24 @@ public class GameManager : MonoBehaviour
         {3, 4, 5 }          //Soin horizontal
     };
 
+    //Booléen à valider une fois la réception d'une attaque faite, et à invalider une fois la phase passée.
+    private bool bReceptionReseau = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        CurrentStat = GameStat.Draw;
+        if (SteamLobby.Instance.sJoueur == "Lapin")
+        {
+            Debug.Log("Joueur = Lapin");
+            WhoIsPlayer = CurrentPlayer.Lapin;
+        }
+        else if (SteamLobby.Instance.sJoueur == "Poule")
+        {
+            Debug.Log("Joueur = Poule");
+            WhoIsPlayer = CurrentPlayer.Poule;
+        }
 
+        CurrentStat = GameStat.Draw;
     }
 
     // Update is called once per frame
@@ -108,20 +119,27 @@ public class GameManager : MonoBehaviour
 
                 if (WhoIsPlayer == CurrentPlayer.Poule)
                 {
-                    WhoIsPlayerTxT.SetText("Vous étes : Poule");
+                    WhoIsPlayerTxT.SetText("Vous êtes : Poule");
                     PaTXT.SetText("Point d'action : " + PlayerPoule.GetComponent<PlayerControl>().ActionPoint);
                     PlayerLapinGrid.SetActive(false);
                     PlayerPouleGrid.SetActive(true);
                 }
                 else if (WhoIsPlayer == CurrentPlayer.Lapin)
                 {
-                    WhoIsPlayerTxT.SetText("Vous étes : Lapin");
+                    WhoIsPlayerTxT.SetText("Vous êtes : Lapin");
                     PaTXT.SetText("Point d'action : " + PlayerLapin.GetComponent<PlayerControl>().ActionPoint);
                     PlayerLapinGrid.SetActive(true);
                     PlayerPouleGrid.SetActive(false);
                 }
                 break;
-
+            case GameStat.Wait:
+                //Attente de la réception d'une réponse réseau.
+                if (bReceptionReseau==true)
+                {
+                    CurrentStat = GameStat.Fight;
+                    bReceptionReseau = false;
+                }
+                break;
             case GameStat.Fight:
                 resultPhase();
                 //CurrentStat = GameStat.Result;
@@ -155,13 +173,23 @@ public class GameManager : MonoBehaviour
         }
 
 
+        //Changement d'état quand le joueur en cours n'a plus de PA
+        if (WhoIsPlayer == CurrentPlayer.Lapin && (PlayerLapin.GetComponent<PlayerControl>().ActionPoint == 0))
+        {
+            CurrentStat = GameStat.Wait;
+        }
+
+        if (WhoIsPlayer == CurrentPlayer.Poule && (PlayerPoule.GetComponent<PlayerControl>().ActionPoint == 0))
+        {
+            CurrentStat = GameStat.Wait;
+        }
+
         //Changement d'état quand les deux joueurs on plus de PA
-        if ((PlayerPoule.GetComponent<PlayerControl>().ActionPoint == 0) && (PlayerLapin.GetComponent<PlayerControl>().ActionPoint == 0))
+        /*if ((PlayerPoule.GetComponent<PlayerControl>().ActionPoint == 0) && (PlayerLapin.GetComponent<PlayerControl>().ActionPoint == 0))
         {
             CurrentStat = GameStat.Fight;
-        }
+        }*/
     }
-
 
     void playerDrawing(GameObject PlayerObject, SpriteRenderer[] T_PlayerGrid, out int[] T_PlayerDrawing)
     {
@@ -231,7 +259,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
 
     void resultPhase()
     {
@@ -376,6 +403,27 @@ public class GameManager : MonoBehaviour
         }
 
         return valid;
+    }
+
+    //BUT : Récupérer l'attaque en réseau et signaler que l'attaque est reçue.
+    public void ReceptionAttaqueReseau(AttaqueV3 attaqueV3)
+    {
+        if (bReceptionReseau==false)
+        {
+            //ICI GAETAN UTILISER L'ATTAQUE V3 POUR METTRE EN PLACE L'ATTAQUE DE L'ADVERSAIRE.
+            if (WhoIsPlayer == CurrentPlayer.Poule)
+            {
+                //Le joueur est la poule, donc l'attaque reçue en réseau s'applique au lapin.
+
+            }
+            else if (WhoIsPlayer == CurrentPlayer.Lapin)
+            {
+                //Le joueur est le lapin, donc l'attaque reçue en réseau s'applique à la poule.
+
+            }
+
+            bReceptionReseau = true;
+        }
     }
 
 }
