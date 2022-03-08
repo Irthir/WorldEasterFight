@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using TMPro;
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public enum CurrentPlayer { Poule, Lapin, None }// pour pas que le joueur joue les deux perso
@@ -58,6 +59,8 @@ public class GameManager : MonoBehaviour
 
     //Booléen à valider une fois la réception d'une attaque faite, et à invalider une fois la phase passée.
     private bool bReceptionReseau = false;
+    //Référence au manager réseau
+    SteamManagerGame steamManagerGame=null;
 
     // Start is called before the first frame update
     void Start()
@@ -71,6 +74,13 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Joueur = Poule");
             WhoIsPlayer = CurrentPlayer.Poule;
+        }
+
+        //Mise en place du manager de réseau.
+        steamManagerGame = GameObject.Find("SteamManagerGame").GetComponent<SteamManagerGame>();
+        if (steamManagerGame == null)
+        {
+            Debug.Log("Erreur lors de la récupération du manager réseau.");
         }
 
         CurrentStat = GameStat.Draw;
@@ -174,15 +184,17 @@ public class GameManager : MonoBehaviour
 
 
         //Changement d'état quand le joueur en cours n'a plus de PA
-        if (WhoIsPlayer == CurrentPlayer.Lapin && (PlayerLapin.GetComponent<PlayerControl>().ActionPoint == 0))
+        /*if (WhoIsPlayer == CurrentPlayer.Lapin && (PlayerLapin.GetComponent<PlayerControl>().ActionPoint == 0))
         {
+
             CurrentStat = GameStat.Wait;
         }
 
         if (WhoIsPlayer == CurrentPlayer.Poule && (PlayerPoule.GetComponent<PlayerControl>().ActionPoint == 0))
         {
+
             CurrentStat = GameStat.Wait;
-        }
+        }*/
 
         //Changement d'état quand les deux joueurs on plus de PA
         /*if ((PlayerPoule.GetComponent<PlayerControl>().ActionPoint == 0) && (PlayerLapin.GetComponent<PlayerControl>().ActionPoint == 0))
@@ -229,12 +241,28 @@ public class GameManager : MonoBehaviour
 
                         numDrawing = ValidDrawing(T_PlayerDrawing);
 
-                        if (numDrawing != -1) {
+                        if (numDrawing != -1)
+                        {
                             typeDrawing = (numDrawing / 4) + 1;
                             Debug.Log("Dessin n°" + numDrawing);
                             PlayerAttack = new AttaqueV3(typeDrawing, T_PlayerDrawing[0], T_PlayerDrawing[1], T_PlayerDrawing[2]);
-                            WhoIsPlayer = CurrentPlayer.Lapin;
-                        } else {
+                            //WhoIsPlayer = CurrentPlayer.Lapin;
+
+
+                            //Envoie de l'action au réseau.
+                            if (steamManagerGame.sendActionToSteamNetwork(PlayerAttack))
+                            {
+                                Debug.Log("Réussite de l'envoie de l'attaque réseau.");
+                                //Passage en phase d'attente de réponse réseau.
+                                CurrentStat = GameStat.Wait;
+                            }
+                            else
+                            {
+                                Debug.Log("Échec de l'envoie de l'attaque réseau.");
+                            }
+                        }
+                        else
+                        {
                             Debug.Log("Dessin invalide");
                             PlayerObject.GetComponent<PlayerControl>().ActionPoint = 3;
                             for(i=0; i<T_PlayerGrid.Length; i++) {
@@ -433,9 +461,13 @@ public class GameManager : MonoBehaviour
     }
 
 
+    //BUT : Mettre fin au réseau, au jeu, et rediriger à l'écran titre.
     void EndGame()
     {
-        //ROMAIN TU FAIS CE QUE TU VEUX LA DEDANS
+        //Référence au manager réseau.
+        steamManagerGame.endLobby();
+        //Redirection de fin de jeu.
+        SceneManager.LoadScene("TitleScreen");
     }
 
 }

@@ -7,6 +7,8 @@
 -Mise en place de la réception de l'évènement d'attaque dans le gamemanager.
 -Mise en place de la réception de l'évènement de déconnexion dans la scène Game.
 -Mise en place de l'envoie de l'attaque en réseau et de sa réception.
+-Liaison du réseau à la condition de fin.
+-Liaison de l'envoie de l'atatque au réseau.
 
 ## [0.3.1] - 2022-07-03 - G.P.
 ### Ajout

@@ -100,4 +100,9 @@ public class SteamManagerGame : ASteamManager
             return false;
         }
     }
+
+    public void endLobby()
+    {
+        LeaveLobby();
+    }
 }
