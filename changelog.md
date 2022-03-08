@@ -1,3 +1,7 @@
+## [0.4.1] - 2022-08-03 - G.P.
+### Ajout
+-Ajout de la condition de fin.
+
 ## [0.0.8] - 2022-08-03 - R.S.
 ### Ajout
 -Mise en place de la réception de l'évènement d'attaque dans le gamemanager.
