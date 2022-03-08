@@ -126,6 +126,8 @@ public class SteamManagerMenu : ASteamManager
 		{
 			Debug.Log("Lobby rejoint : " + pCallback.m_ulSteamIDLobby);
 
+			SteamLobby.Instance.steamIDLobby = (Steamworks.CSteamID)pCallback.m_ulSteamIDLobby;
+
 			LogLobby();
 		}
 	}
@@ -185,7 +187,7 @@ public class SteamManagerMenu : ASteamManager
 		{
 			int nbJoueur = SteamMatchmaking.GetNumLobbyMembers(SteamLobby.Instance.steamIDLobby);
 
-			Debug.Log("Nombre de joueurs pr�sents dans le lobby " + nbJoueur + ".");
+			Debug.Log("Nombre de joueurs présents dans le lobby " + nbJoueur + ".");
 
 			for (int i = 0; i < nbJoueur; i++)
 			{
