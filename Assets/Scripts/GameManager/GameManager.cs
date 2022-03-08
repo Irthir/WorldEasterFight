@@ -146,12 +146,12 @@ public class GameManager : MonoBehaviour
                 if (bReceptionReseau==true)
                 {
                     CurrentStat = GameStat.Fight;
-                    bReceptionReseau = false;
                 }
                 break;
             case GameStat.Fight:
                 resultPhase();
                 //CurrentStat = GameStat.Result;
+                bReceptionReseau = false;
                 break;
         }
 
@@ -569,6 +569,7 @@ public class GameManager : MonoBehaviour
                 T_LapinDrawing[1] = attaqueV3.Case2;
                 T_LapinDrawing[2] = attaqueV3.Case3;
 
+                Debug.Log("Écriture de l'attaque de Lapin.");
 
             }
             else if (WhoIsPlayer == CurrentPlayer.Lapin)
@@ -579,6 +580,7 @@ public class GameManager : MonoBehaviour
                 T_PouleDrawing[1] = attaqueV3.Case2;
                 T_PouleDrawing[2] = attaqueV3.Case3;
 
+                Debug.Log("Écriture de l'attaque de Poule.");
 
             }
 

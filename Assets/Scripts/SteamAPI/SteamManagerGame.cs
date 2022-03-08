@@ -35,15 +35,20 @@ public class SteamManagerGame : ASteamManager
             sMessage = Encoding.Default.GetString(bytes);
             Debug.Log("Message reçu du lobby : " + sMessage);
 
-            if (steamIDSender != SteamUser.GetSteamID())
+            if (steamIDSender != (Steamworks.CSteamID)SteamUser.GetSteamID())
             //Si nous ne sommes pas sur une attaque nous avons envoyé.
             {
+                Debug.Log("Écriture de l'attaque reçue du joueur adverse.");
                 AttaqueV3 attaqueV3 = AttaqueV3.FromString(sMessage);
 
                 GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
                 if (gameManager!=null)
                 {
                     gameManager.ReceptionAttaqueReseau(attaqueV3);
+                }
+                else
+                {
+                    Debug.Log("Erreur gameManager null.");
                 }
                 //Appeler le GameManager pour lui envoyer l'info de l'attaque adverse.
             }
