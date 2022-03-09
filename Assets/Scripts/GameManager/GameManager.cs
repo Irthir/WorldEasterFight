@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI WhoIsPlayerTxT;
     public TextMeshProUGUI PaTXT;
+    public TextMeshProUGUI ResultTXT
 
     public Animator animPoule;
     public Animator animLapin;
@@ -495,14 +496,14 @@ public class GameManager : MonoBehaviour
 
         //ACTION DE SOIN
         if(PouleAction == 4 || LapinAction == 4) {
-            if(PouleAction == 1) {
+            if(PouleAction == 4) {
                 Debug.Log("Poule: Soin");
                 animPoule.SetBool("Soin", true);
                 if(nbCollide < 2) { 
                     healPoule = true;
                 }
             }
-            if(LapinAction == 1) {
+            if(LapinAction == 4) {
                 Debug.Log("Lapin: Soin");
                 animLapin.SetBool("Soin", true);
                 if (nbCollide < 2) { 
@@ -563,7 +564,7 @@ public class GameManager : MonoBehaviour
 
 
         if(PlayerPoule.GetComponent<PlayerControl>().Life <= 0 || PlayerLapin.GetComponent<PlayerControl>().Life <= 0) {
-            EndGame();
+            VictoryScene();
         } else {
             CurrentStat = GameStat.ReStart;
         }
@@ -629,15 +630,42 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void VictoryScene()
+    {
+        if (PlayerPoule.GetComponent<PlayerControl>().Life <= 0)
+        {
+            animLapin.SetBool("Victoire", true);
+            debug.log("Victoire du lapin ! ");
+            ResultTXT.SetText("VICTOIRE DU LAPIN !");
+        }
+        else if (PlayerLapin.GetComponent<PlayerControl>().Life <= 0)
+        {
+            animPoule.SetBool("Victoire", true);
+            debug.log("Victoire de la poule ! ");
+            ResultTXT.SetText("VICTOIRE DE LA POULE !");
+        }
+        else
+        {
+            debug.log("égalité, du coup double annim de victoire !");
+            ResultTXT.SetText("VICTOIRE !");
+            animPoule.SetBool("Victoire", true);
+            animLapin.SetBool("Victoire", true);
+        }
 
+        StartCoroutine(EndGameCoroutine());
 
-    //BUT : Mettre fin au réseau, au jeu, et rediriger à l'écran titre.
+    }
+
+        //BUT : Mettre fin au réseau, au jeu.
     void EndGame()
     {
         //Référence au manager réseau.
         steamManagerGame.endLobby();
-        //Redirection de fin de jeu.
-        SceneManager.LoadScene("TitleScreen");
     }
 
+    IEnumerator EndGameCoroutine()
+    {
+        //yield on a new YieldInstruction that waits for 5 seconds.
+        yield return new WaitForSeconds(5);
+    }
 }
