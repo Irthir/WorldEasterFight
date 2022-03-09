@@ -4,20 +4,31 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    public List<Transform> LifeBarSpritList;
-
-
     public int Life = 3;
     public int ActionPoint = 3;
-    public Transform LifeBar;
+    public GameObject[] T_LifeBar;
+    public SpriteRenderer[] T_LifeBarRenderer;
     public bool ThisPlayerGetHit = false;
+    public bool ThisPlayerGetHeal = false;
     // Start is called before the first frame update
     void Start()
     {
-        foreach (Transform child in LifeBar)
+        /*foreach (Transform child in LifeBar)
         {
-            LifeBarSpritList.Add(child.transform);
+            //LifeBarSpritListTransform.Add(child.transform);
+            //LifeBarSpritListTransform[i] = child.transform;
+            i++;
         }
+
+        i = 0;
+
+        foreach (SpriteRenderer child in LifeBar)
+        {
+            //LifeBarSpritListTransform.Add(child.transform);
+            LifeBarSpritListSprite[i] = child.spriterenderer;
+            i++;
+        }*/
+
     }
 
     // Update is called once per frame
@@ -33,21 +44,20 @@ public class PlayerControl : MonoBehaviour
 
     void CheckLifeBar()
     {
-        Destroy(LifeBarSpritList[LifeBarSpritList.Count - 1].gameObject);
-        LifeBarSpritList.RemoveAt(LifeBarSpritList.Count - 1);
+        T_LifeBar[Life - 1].SetActive(false);
         Life--;
 
         if (Life == 2) 
         {
             Debug.Log("Yellow");
-            LifeBarSpritList[0].GetComponent<SpriteRenderer>().color = Color.yellow;
-            LifeBarSpritList[1].GetComponent<SpriteRenderer>().color = Color.yellow;
+            /*LifeBarSpritListTransform[0].GetComponent<SpriteRenderer>().color = Color.yellow;
+            LifeBarSpritListTransform[1].GetComponent<SpriteRenderer>().color = Color.yellow;*/
         }
         else if (Life == 1)
         {
             Debug.Log("red");
 
-            LifeBarSpritList[0].GetComponent<SpriteRenderer>().color = Color.red;
+            //LifeBarSpritListTransform[0].GetComponent<SpriteRenderer>().color = Color.red;
         }
 
     }

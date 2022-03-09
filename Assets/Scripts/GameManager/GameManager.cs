@@ -550,13 +550,13 @@ public class GameManager : MonoBehaviour
         if(healLapin) {
             Debug.Log("Soin sur le lapin");
             if (PlayerLapin.GetComponent<PlayerControl>().Life < 3) {
-                PlayerLapin.GetComponent<PlayerControl>().Life++;
+                PlayerLapin.GetComponent<PlayerControl>().ThisPlayerGetHeal = true;
             }
         }
         if(healPoule) {
             Debug.Log("Soins sur le lapin");
             if(PlayerPoule.GetComponent<PlayerControl>().Life < 3) {
-                PlayerPoule.GetComponent<PlayerControl>().Life++;
+                PlayerPoule.GetComponent<PlayerControl>().ThisPlayerGetHeal = true;
             }
         }
 
