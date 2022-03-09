@@ -1,3 +1,7 @@
+## [0.6.2] - 2022-09-03 - G.P.
+###Modification
+-Correction du bug de l'animator du Lapin
+
 ## [0.6.1] - 2022-09-03 - G.P.
 ###Ajout
 -Animator du Lapin

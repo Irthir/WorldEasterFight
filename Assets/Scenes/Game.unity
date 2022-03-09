@@ -741,6 +741,7 @@ MonoBehaviour:
   WhoIsPlayerTxT: {fileID: 1193565978}
   PaTXT: {fileID: 178075435}
   animPoule: {fileID: 220904866}
+  animLapin: {fileID: 983239340}
 --- !u!1 &232150841
 GameObject:
   m_ObjectHideFlags: 0
