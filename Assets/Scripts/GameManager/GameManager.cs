@@ -661,9 +661,9 @@ public class GameManager : MonoBehaviour
 
     public void VictoryScene()
     {
-        PlayerLapinGrid.setActive(false);
-        PlayerPouleGrid.setActive(false);
-        ResultGrid.setActive(false);
+        PlayerLapinGrid.SetActive(false);
+        PlayerPouleGrid.SetActive(false);
+        ResultGrid.SetActive(false);
 
         if (PlayerPoule.GetComponent<PlayerControl>().Life <= 0)
         {
