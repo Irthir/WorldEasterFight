@@ -1,3 +1,9 @@
+## [0.6.1] - 2022-09-03 - G.P.
+###Ajout
+-Animator du Lapin
+###Modification
+-Correction du bug empechant la lecture de l'action du joueur local
+
 ## [0.5.2] - 2022-08-03 - G.P.
 ###Ajout
 -Systeme de verification des dessins

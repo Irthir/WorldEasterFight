@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
     public enum GameStat { ReStart, Draw, Wait, Fight, Result }// Etat actuel du combat -> LE MEME POUR TOUT LES JOUEURS 
     public GameStat CurrentStat;
 
-    public int PouleAction;
-    public int LapinAction;
+    public int PouleAction = -1;
+    public int LapinAction = -1;
 
     public GameObject PlayerPoule;
     public GameObject PlayerPouleGrid;
@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI PaTXT;
 
     public Animator animPoule;
+    public Animator animLapin;
 
     public int[,] T_Drawings = {
         //Attaques
@@ -97,10 +98,15 @@ public class GameManager : MonoBehaviour
                 PlayerPoule.GetComponent<PlayerControl>().ActionPoint = 3;
                 PlayerLapin.GetComponent<PlayerControl>().ActionPoint = 3;
                 ResultGrid.SetActive(false);
-                animPoule.SetBool("Attaque1", false);
-                animPoule.SetBool("Attaque2", false);
-                animPoule.SetBool("Defense1", false);
-                animPoule.SetBool("Defense2", false);
+                animPoule.SetBool("Attaque", false);
+                animPoule.SetBool("Esquive", false);
+                animPoule.SetBool("Parade", false);
+                animPoule.SetBool("Soin", false);
+                animLapin.SetBool("Attaque", false);
+                animLapin.SetBool("Esquive", false);
+                animLapin.SetBool("Parade", false);
+                animLapin.SetBool("Soin", false);
+
 
                 for (i = 0; i < T_PlayerPouleGrid.Length; i++)
                 {
@@ -124,19 +130,18 @@ public class GameManager : MonoBehaviour
             case GameStat.Draw:
                 drawPhase();
 
-                if (WhoIsPlayer == CurrentPlayer.Poule)
-                {
+                if (WhoIsPlayer == CurrentPlayer.Poule) {
                     WhoIsPlayerTxT.SetText("Vous êtes : Poule");
                     PaTXT.SetText("Point d'action : " + PlayerPoule.GetComponent<PlayerControl>().ActionPoint);
                     PlayerLapinGrid.SetActive(false);
                     PlayerPouleGrid.SetActive(true);
-                }
-                else if (WhoIsPlayer == CurrentPlayer.Lapin)
-                {
+
+                } else if (WhoIsPlayer == CurrentPlayer.Lapin) {
                     WhoIsPlayerTxT.SetText("Vous êtes : Lapin");
                     PaTXT.SetText("Point d'action : " + PlayerLapin.GetComponent<PlayerControl>().ActionPoint);
                     PlayerLapinGrid.SetActive(true);
                     PlayerPouleGrid.SetActive(false);
+
                 }
                 break;
             case GameStat.Wait:
@@ -171,12 +176,13 @@ public class GameManager : MonoBehaviour
             // POUR LA POULE
             if (WhoIsPlayer == CurrentPlayer.Poule)
             {
-                playerDrawing(PlayerPoule, T_PlayerPouleGrid, out T_PouleDrawing);
+                PouleAction = playerDrawing(PlayerPoule, T_PlayerPouleGrid, out T_PouleDrawing);
+
             }
             //POUR LE LAPIN 
             if (WhoIsPlayer == CurrentPlayer.Lapin)
             {
-                playerDrawing(PlayerLapin, T_PlayerLapinGrid, out   T_LapinDrawing);
+                LapinAction = playerDrawing(PlayerLapin, T_PlayerLapinGrid, out   T_LapinDrawing);
             }
         }
 
@@ -201,10 +207,11 @@ public class GameManager : MonoBehaviour
         }*/
     }
 
-    void playerDrawing(GameObject PlayerObject, SpriteRenderer[] T_PlayerGrid, out int[] T_PlayerDrawing)
+    int playerDrawing(GameObject PlayerObject, SpriteRenderer[] T_PlayerGrid, out int[] T_PlayerDrawing)
     {
         int i;
-        int numDrawing, typeDrawing;
+        int numDrawing;
+        int typeDrawing = -1;
         int j = 0;
         int[] T_BaseDrawing = { -1, -1, -1 };
         T_PlayerDrawing = T_BaseDrawing;
@@ -256,7 +263,7 @@ public class GameManager : MonoBehaviour
                             }
                             else
                             {
-                                Debug.Log("Échec de l'envoie de l'attaque réseau.");
+                                Debug.Log("Échec de l'envoi de l'attaque réseau.");
                             }
                         }
                         else
@@ -280,10 +287,12 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Plus de PA ! ");
+                    Debug.Log("Cette case ne peut pas etre cochée !");
                 }
             }
         }
+
+        return typeDrawing;
     }
 
     void resultPhase()
@@ -404,11 +413,13 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        Debug.Log("Nombre de collisons : " + nbCollide);
+
         //ACTION DE DEFENSE
         if (PouleAction == 2 ^ LapinAction == 2) {
             if (PouleAction == 2) {
                 Debug.Log("Poule: Defense");
-                animPoule.SetBool("Defense1", true);
+                animPoule.SetBool("Parade", true);
                 if (nbCollide == 2) {
                     LapinAction = 0;
                     tapeLapin = true;
@@ -417,6 +428,7 @@ public class GameManager : MonoBehaviour
                 }
             } else {
                 Debug.Log("Lapin: Defense");
+                animLapin.SetBool("Parade", true);
                 if (nbCollide == 2) {
                     PouleAction = 0;
                     tapePoule = true;
@@ -435,7 +447,7 @@ public class GameManager : MonoBehaviour
         if(PouleAction == 3 || LapinAction == 3) {
             if(PouleAction == 3) {
                 Debug.Log("Poule: Esquive");
-                animPoule.SetBool("Attaque2", true);
+                animPoule.SetBool("Esquive", true);
                 if (nbCollide == 1) {
                     LapinAction = 0;
                 }
@@ -445,6 +457,7 @@ public class GameManager : MonoBehaviour
             }
             if(LapinAction == 3) {
                 Debug.Log("Lapin: Esquive");
+                animLapin.SetBool("Esquive", true);
                 if (nbCollide == 1) {
                     PouleAction = 0;
                 }
@@ -464,13 +477,14 @@ public class GameManager : MonoBehaviour
         if(PouleAction == 1 || LapinAction == 1) {
             if(PouleAction == 1) {
                 Debug.Log("Poule: Attaque");
-                animPoule.SetBool("Attaque1", true);
+                animPoule.SetBool("Attaque", true);
                 if(nbCollide == 0) { 
                     tapeLapin = true;
                 }
             }
             if(LapinAction == 1) {
                 Debug.Log("Lapin: Attaque");
+                animLapin.SetBool("Attaque", true);
                 if (nbCollide == 0) { 
                     tapePoule = true;
                 }
@@ -483,13 +497,14 @@ public class GameManager : MonoBehaviour
         if(PouleAction == 4 || LapinAction == 4) {
             if(PouleAction == 1) {
                 Debug.Log("Poule: Soin");
-                animPoule.SetBool("Defense2", true);
+                animPoule.SetBool("Soin", true);
                 if(nbCollide < 2) { 
                     healPoule = true;
                 }
             }
             if(LapinAction == 1) {
                 Debug.Log("Lapin: Soin");
+                animLapin.SetBool("Soin", true);
                 if (nbCollide < 2) { 
                     healLapin = true;
                 }
@@ -526,11 +541,11 @@ public class GameManager : MonoBehaviour
         
         if(tapeLapin) {
             Debug.Log("Degats sur le lapin");
-            PlayerLapin.GetComponent<PlayerControl>().Life--;
+            PlayerLapin.GetComponent<PlayerControl>().ThisPlayerGetHit = true;
         }
         if(tapePoule) {
             Debug.Log("Degats sur la poule");
-            PlayerPoule.GetComponent<PlayerControl>().Life--;
+            PlayerPoule.GetComponent<PlayerControl>().ThisPlayerGetHit = true;
         }
         if(healLapin) {
             Debug.Log("Soin sur le lapin");
@@ -556,15 +571,12 @@ public class GameManager : MonoBehaviour
         //After we have waited 5 seconds print the time again.
     }
 
-    int ValidDrawing(int[] T_PlayerDrawing)
-    {
+    int ValidDrawing(int[] T_PlayerDrawing) {
         int i;
         int valid = -1;
 
-        for (i = 0; i < 16; i++)
-        {
-            if (T_PlayerDrawing[0] == T_Drawings[i, 0] && T_PlayerDrawing[1] == T_Drawings[i, 1] && T_PlayerDrawing[2] == T_Drawings[i, 2])
-            {
+        for (i = 0; i < 16; i++) {
+            if (T_PlayerDrawing[0] == T_Drawings[i, 0] && T_PlayerDrawing[1] == T_Drawings[i, 1] && T_PlayerDrawing[2] == T_Drawings[i, 2]) {
                 valid = i;
                 break;
             }
@@ -576,28 +588,21 @@ public class GameManager : MonoBehaviour
     //BUT : Récupérer l'attaque en réseau et signaler que l'attaque est reçue.
     public void ReceptionAttaqueReseau(AttaqueV3 attaqueV3)
     {
-        if (bReceptionReseau==false)
-        {
-            //ICI GAETAN UTILISER L'ATTAQUE V3 POUR METTRE EN PLACE L'ATTAQUE DE L'ADVERSAIRE.
-            if (WhoIsPlayer == CurrentPlayer.Poule)
-            {
+        if (bReceptionReseau==false) {
+            if (WhoIsPlayer == CurrentPlayer.Poule) {
                 //Le joueur est la poule, donc l'attaque reçue en réseau s'applique au lapin
+                Debug.Log("Reception de l'attaque du lapin");
                 LapinAction = attaqueV3.Type;
                 T_LapinDrawing[0] = attaqueV3.Case1;
                 T_LapinDrawing[1] = attaqueV3.Case2;
                 T_LapinDrawing[2] = attaqueV3.Case3;
-
-
-            }
-            else if (WhoIsPlayer == CurrentPlayer.Lapin)
-            {
+            } else if (WhoIsPlayer == CurrentPlayer.Lapin) {
                 //Le joueur est le lapin, donc l'attaque reçue en réseau s'applique à la poule.
+                Debug.Log("Reception de l'attaque de la poule");
                 PouleAction = attaqueV3.Type;
                 T_PouleDrawing[0] = attaqueV3.Case1;
                 T_PouleDrawing[1] = attaqueV3.Case2;
                 T_PouleDrawing[2] = attaqueV3.Case3;
-
-
             }
 
             bReceptionReseau = true;

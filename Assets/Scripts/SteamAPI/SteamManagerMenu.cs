@@ -202,7 +202,7 @@ public class SteamManagerMenu : ASteamManager
 				Debug.Log("Ancien nom d'utilisateur : " + oldUserName);
 			}
 
-			if (nbJoueur == 1)
+			if (nbJoueur == 2)
 			{
 				setPlayer();
 				stopCallbacks();
