@@ -665,6 +665,15 @@ public class GameManager : MonoBehaviour
         PlayerPouleGrid.SetActive(false);
         ResultGrid.SetActive(false);
 
+        animPoule.SetBool("Attaque", false);
+        animPoule.SetBool("Esquive", false);
+        animPoule.SetBool("Parade", false);
+        animPoule.SetBool("Soin", false);
+        animLapin.SetBool("Attaque", false);
+        animLapin.SetBool("Esquive", false);
+        animLapin.SetBool("Parade", false);
+        animLapin.SetBool("Soin", false);
+
         if (PlayerLapin.GetComponent<PlayerControl>().Life > 0)
         {
             animLapin.SetBool("Victoire", true);
@@ -680,7 +689,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("égalité, du coup double annim de victoire !");
-            ResultTXT.SetText("VICTOIRE !");
+            ResultTXT.SetText("Egalite !");
             animPoule.SetBool("Victoire", true);
             animLapin.SetBool("Victoire", true);
         }
