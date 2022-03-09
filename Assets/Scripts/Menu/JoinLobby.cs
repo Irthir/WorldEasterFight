@@ -6,12 +6,12 @@ using Steamworks;
 public class JoinLobby : MonoBehaviour
 {
     public Steamworks.CSteamID cSteamID;
-    public SteamMenu steamMenu;
+    public SteamManagerMenu steamMenu;
 
     // Start is called before the first frame update
     void Start()
     {
-        steamMenu = GameObject.Find("SteamMenuManager").GetComponent<SteamMenu>();
+        steamMenu = GameObject.Find("SteamMenuManager").GetComponent<SteamManagerMenu>();
     }
 
     // Update is called once per frame

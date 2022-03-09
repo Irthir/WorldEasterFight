@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3538370587808738475}
-  - component: {fileID: 5551880090560100429}
+  - component: {fileID: 2169036723973674922}
   m_Layer: 0
   m_Name: SteamLobby
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5551880090560100429
+--- !u!114 &2169036723973674922
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
