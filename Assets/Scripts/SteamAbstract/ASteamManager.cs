@@ -3,8 +3,8 @@
 *
 * Classe        : ASteamManager
 * Description   : Classe abstraite pour la gestion des opération sur steam.
-* Attribut      : Steamworks.SteamAPICall_t hSteamAPICall :
-*                 Callback<LobbyMatchList_t> m_LobbyMatchList : 
+* Attribut      : Steamworks.SteamAPICall_t hSteamAPICall : Pointeur de donnée de lobby pour les évènements.
+*                 Callback<LobbyMatchList_t> m_LobbyMatchList : Pointeur de fonction pour l'évènement de réception des lobbys.
 *                 Callback<LobbyCreated_t> m_LobbyCreated : 
 *                 Callback<LobbyEnter_t> m_LobbyEntered : 
 *                 Callback<GameConnectedFriendChatMsg_t> m_GameConnectedFriendChatMsg : 
