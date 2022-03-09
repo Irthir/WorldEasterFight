@@ -396,6 +396,39 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator TimeCoroutine()
     {
+        //Animations
+        switch(PouleAction) {
+            case 1:
+                animPoule.SetBool("Attaque", true);
+                break;
+            case 2:
+                animPoule.SetBool("Parade", true);
+                break;
+            case 3:
+                animPoule.SetBool("Esquive", true);
+                break;
+            case 4:
+                animPoule.SetBool("Soin", true);
+                break;
+        }
+
+        switch (LapinAction)
+        {
+            case 1:
+                animLapin.SetBool("Attaque", true);
+                break;
+            case 2:
+                animLapin.SetBool("Parade", true);
+                break;
+            case 3:
+                animLapin.SetBool("Esquive", true);
+                break;
+            case 4:
+                animLapin.SetBool("Soin", true);
+                break;
+        }
+
+
         int i;
         int nbCollide;
         bool tapePoule = false;
@@ -406,6 +439,7 @@ public class GameManager : MonoBehaviour
 
         //Print the time of when the function is first called.
 
+        animLapin.SetBool("Esquive", true);
         //On compte le nombre de cases en commun entre les deux joueurs
         nbCollide = 0;
         for (i=0; i<T_ResultGrid.Length; i++) {
@@ -420,7 +454,6 @@ public class GameManager : MonoBehaviour
         if (PouleAction == 2 ^ LapinAction == 2) {
             if (PouleAction == 2) {
                 Debug.Log("Poule: Defense");
-                animPoule.SetBool("Parade", true);
                 if (nbCollide == 2) {
                     LapinAction = 0;
                     tapeLapin = true;
@@ -429,7 +462,6 @@ public class GameManager : MonoBehaviour
                 }
             } else {
                 Debug.Log("Lapin: Defense");
-                animLapin.SetBool("Parade", true);
                 if (nbCollide == 2) {
                     PouleAction = 0;
                     tapePoule = true;
@@ -448,7 +480,6 @@ public class GameManager : MonoBehaviour
         if(PouleAction == 3 || LapinAction == 3) {
             if(PouleAction == 3) {
                 Debug.Log("Poule: Esquive");
-                animPoule.SetBool("Esquive", true);
                 if (nbCollide == 1) {
                     LapinAction = 0;
                 }
@@ -458,7 +489,6 @@ public class GameManager : MonoBehaviour
             }
             if(LapinAction == 3) {
                 Debug.Log("Lapin: Esquive");
-                animLapin.SetBool("Esquive", true);
                 if (nbCollide == 1) {
                     PouleAction = 0;
                 }
@@ -478,14 +508,12 @@ public class GameManager : MonoBehaviour
         if(PouleAction == 1 || LapinAction == 1) {
             if(PouleAction == 1) {
                 Debug.Log("Poule: Attaque");
-                animPoule.SetBool("Attaque", true);
                 if(nbCollide == 0) { 
                     tapeLapin = true;
                 }
             }
             if(LapinAction == 1) {
                 Debug.Log("Lapin: Attaque");
-                animLapin.SetBool("Attaque", true);
                 if (nbCollide == 0) { 
                     tapePoule = true;
                 }
@@ -498,14 +526,12 @@ public class GameManager : MonoBehaviour
         if(PouleAction == 4 || LapinAction == 4) {
             if(PouleAction == 4) {
                 Debug.Log("Poule: Soin");
-                animPoule.SetBool("Soin", true);
                 if(nbCollide < 2) { 
                     healPoule = true;
                 }
             }
             if(LapinAction == 4) {
                 Debug.Log("Lapin: Soin");
-                animLapin.SetBool("Soin", true);
                 if (nbCollide < 2) { 
                     healLapin = true;
                 }
@@ -635,6 +661,10 @@ public class GameManager : MonoBehaviour
 
     public void VictoryScene()
     {
+        PlayerLapinGrid.setActive(false);
+        PlayerPouleGrid.setActive(false);
+        ResultGrid.setActive(false);
+
         if (PlayerPoule.GetComponent<PlayerControl>().Life <= 0)
         {
             animLapin.SetBool("Victoire", true);
