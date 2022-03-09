@@ -9,6 +9,7 @@ public class SteamManagerMenu : ASteamManager
 	[SerializeField]
 	private GameObject prefabJoinButton;
 
+
 	//BUT : Faire la premi�re recherche pour l'affichage, et mettre en place les conditions de recherche.
 	private void Start()
 	{
@@ -201,7 +202,7 @@ public class SteamManagerMenu : ASteamManager
 				Debug.Log("Ancien nom d'utilisateur : " + oldUserName);
 			}
 
-			if (nbJoueur == 2)
+			if (nbJoueur == 1)
 			{
 				setPlayer();
 				stopCallbacks();
