@@ -318,10 +318,10 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            if(T_PlayerPouleGrid[i].color == Color.red) {
+            if(T_PlayerPouleGrid[i].color == Color.gray) {
                 T_PlayerPouleGrid[i].color = Color.white;
             }
-            if (T_PlayerLapinGrid[i].color == Color.red)
+            if (T_PlayerLapinGrid[i].color == Color.gray)
             {
                 T_PlayerLapinGrid[i].color = Color.white;
             }
@@ -588,6 +588,8 @@ public class GameManager : MonoBehaviour
     //BUT : Récupérer l'attaque en réseau et signaler que l'attaque est reçue.
     public void ReceptionAttaqueReseau(AttaqueV3 attaqueV3)
     {
+        int i;
+
         if (bReceptionReseau==false) {
             if (WhoIsPlayer == CurrentPlayer.Poule) {
                 //Le joueur est la poule, donc l'attaque reçue en réseau s'applique au lapin
@@ -596,6 +598,15 @@ public class GameManager : MonoBehaviour
                 T_LapinDrawing[0] = attaqueV3.Case1;
                 T_LapinDrawing[1] = attaqueV3.Case2;
                 T_LapinDrawing[2] = attaqueV3.Case3;
+
+                for(i=0; i<T_PlayerLapinGrid.Length; i++) {
+                    if(i == T_LapinDrawing[0] || i == T_LapinDrawing[1] || i == T_LapinDrawing[2]) {
+                        T_PlayerLapinGrid[i].color = Color.black;
+                    } else {
+                        T_PlayerLapinGrid[i].color = Color.white;
+                    }
+                }
+
             } else if (WhoIsPlayer == CurrentPlayer.Lapin) {
                 //Le joueur est le lapin, donc l'attaque reçue en réseau s'applique à la poule.
                 Debug.Log("Reception de l'attaque de la poule");
@@ -603,6 +614,15 @@ public class GameManager : MonoBehaviour
                 T_PouleDrawing[0] = attaqueV3.Case1;
                 T_PouleDrawing[1] = attaqueV3.Case2;
                 T_PouleDrawing[2] = attaqueV3.Case3;
+
+                for(i=0; i<T_PlayerPouleGrid.Length; i++) {
+                    if(i == T_PouleDrawing[0] || i == T_PouleDrawing[1] || i == T_PouleDrawing[2]) {
+                        T_PlayerPouleGrid[i].color = Color.black;
+                    } else {
+                        T_PlayerPouleGrid[i].color = Color.white;
+                    }
+                }
+
             }
 
             bReceptionReseau = true;

@@ -1,3 +1,7 @@
+## [0.6.3] - 2022-09-03 - G.P.
+###Modification
+-Correction du bug empechant la lecture des collisions entre cases de joueurs
+
 ## [0.6.2] - 2022-09-03 - G.P.
 ###Modification
 -Correction du bug de l'animator du Lapin
