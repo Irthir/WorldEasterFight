@@ -1,3 +1,15 @@
+/******************************************************************************\
+* Fichier       : SteamManagerGame.cs
+*
+* Classe        : SteamManagerGame
+* Description   : Manager de gestion des opérations réseau durant le jeu.
+*
+* Créateur      : Romain Schlotter
+\*******************************************************************************/
+/*******************************************************************************\
+* 09-03-2022   : Rendu du projet
+\*******************************************************************************/
+
 using UnityEngine;
 using Steamworks;
 using UnityEngine.SceneManagement;

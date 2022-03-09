@@ -1,3 +1,16 @@
+/******************************************************************************\
+* Fichier       : SteamManagerMenu.cs
+*
+* Classe        : SteamManagerMenu
+* Description   : Manager de gestion des opérations réseau durant le menu.
+* Attribut      : GameObject ButtonListContent : Objet de la scène parent des boutons pour la gestion du scroll.
+*                 GameObject prefabJoinButton : Prefab du bouton pour rejoindre un lobby.
+*
+* Créateur      : Romain Schlotter
+\*******************************************************************************/
+/*******************************************************************************\
+* 09-03-2022   : Rendu du projet
+\*******************************************************************************/
 using UnityEngine;
 using Steamworks;
 using UnityEngine.SceneManagement;
