@@ -1,3 +1,15 @@
+/******************************************************************************\
+* Fichier       : SteamManagerGame.cs
+*
+* Classe        : SteamManagerGame
+* Description   : Manager de gestion des opérations réseau durant le jeu.
+*
+* Créateur      : Romain Schlotter
+\*******************************************************************************/
+/*******************************************************************************\
+* 09-03-2022   : Rendu du projet
+\*******************************************************************************/
+
 using UnityEngine;
 using Steamworks;
 using UnityEngine.SceneManagement;
@@ -54,6 +66,7 @@ public class SteamManagerGame : ASteamManager
                 Debug.Log("Écriture de l'attaque reçue du joueur adverse.");
                 AttaqueV3 attaqueV3 = AttaqueV3.FromString(sMessage);
 
+                //Appeler le GameManager pour lui envoyer l'info de l'attaque adverse.
                 GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
                 if (gameManager!=null)
                 {
@@ -63,8 +76,9 @@ public class SteamManagerGame : ASteamManager
                 {
                     Debug.Log("Erreur gameManager null.");
                 }
-                //Appeler le GameManager pour lui envoyer l'info de l'attaque adverse.
             }
+
+            bytes = new byte[0];
         }
     }
 

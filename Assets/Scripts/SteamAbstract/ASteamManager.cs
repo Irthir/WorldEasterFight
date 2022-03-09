@@ -1,3 +1,23 @@
+/******************************************************************************\
+* Fichier       : ASteamManager.cs
+*
+* Classe        : ASteamManager
+* Description   : Classe abstraite pour la gestion des opération sur steam.
+* Attribut      : Steamworks.SteamAPICall_t hSteamAPICall : Pointeur de donnée de lobby pour les évènements.
+*                 Callback<LobbyMatchList_t> m_LobbyMatchList : Pointeur de fonction pour l'évènement de réception des lobbys.
+*                 Callback<LobbyCreated_t> m_LobbyCreated : Pointeur de fonction pour l'évènement de création de lobby.
+*                 Callback<LobbyEnter_t> m_LobbyEntered : Pointeur de fonction pour l'évènement d'entrée dans un lobby.
+*                 Callback<GameConnectedFriendChatMsg_t> m_GameConnectedFriendChatMsg : Pointeur de fonction pour l'évènement de réception d'un message d'un ami steam.
+*                 Callback<LobbyChatUpdate_t> m_LobbyChatUpdate : Pointeur de fonction pour l'évènement de réception d'un message du lobby.
+*                 Callback<LobbyChatMsg_t> m_LobbyChatMsg : Pointeur de fonction pour l'évènement d'une entrée ou sortie dans le lobby.
+*                 Callback<LobbyDataUpdate_t> m_LobbyDataUpdate : Pointeur de fonction pour l'évènement de changement de données dans le lobby.
+*                 Callback<LobbyInvite_t> m_LobbyInvite : Pointeur de fonction pour l'évènement de réception dans une invitation à un lobby.
+*
+* Créateur      : Romain Schlotter
+\*******************************************************************************/
+/*******************************************************************************\
+* 09-03-2022   : Rendu du projet
+\*******************************************************************************/
 using UnityEngine;
 using Steamworks;
 using System.Text;
@@ -136,6 +156,7 @@ public abstract class ASteamManager : MonoBehaviour
 			SteamMatchmaking.GetLobbyChatEntry((Steamworks.CSteamID)pCallback.m_ulSteamIDLobby, (int)pCallback.m_iChatID, out steamIDSender, bytes, 4096, out eChatEntryType);
 			sMessage = Encoding.Default.GetString(bytes);
 			Debug.Log("Message reçu du lobby : " + sMessage);
+			bytes = new byte[0];
 		}
 	}
 

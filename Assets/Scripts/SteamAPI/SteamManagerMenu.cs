@@ -1,3 +1,16 @@
+/******************************************************************************\
+* Fichier       : SteamManagerMenu.cs
+*
+* Classe        : SteamManagerMenu
+* Description   : Manager de gestion des opérations réseau durant le menu.
+* Attribut      : GameObject ButtonListContent : Objet de la scène parent des boutons pour la gestion du scroll.
+*                 GameObject prefabJoinButton : Prefab du bouton pour rejoindre un lobby.
+*
+* Créateur      : Romain Schlotter
+\*******************************************************************************/
+/*******************************************************************************\
+* 09-03-2022   : Rendu du projet
+\*******************************************************************************/
 using UnityEngine;
 using Steamworks;
 using UnityEngine.SceneManagement;
@@ -37,29 +50,7 @@ public class SteamManagerMenu : ASteamManager
 		}
 	}
 
-	//BUT : G�rer les inputs pour le lobby.
-	private void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-		}
-
-		if (Input.GetKeyDown(KeyCode.R))
-		{
-		}
-
-		if (Input.GetKeyDown(KeyCode.Q))
-		{
-			LeaveLobby();
-		}
-
-		if (Input.GetKeyDown(KeyCode.M))
-		{
-			SendMessageToLobby("Patate !");
-		}
-	}
-
-	/*______________________________________LES �V�NEMENTS !!!______________________________________*/
+	/*______________________________________LES ÉVÉNEMENTS !!!______________________________________*/
 
 	//BUT : Mettre � jour le menu � la r�ception des lobbys
 	new private void OnGetLobbyMatchList(LobbyMatchList_t pCallback)
@@ -78,7 +69,7 @@ public class SteamManagerMenu : ASteamManager
 					//Steamworks.CSteamID idOwner = SteamMatchmaking.GetLobbyOwner(idLobby);
 					/*string sName = SteamFriends.GetFriendPersonaName(idOwner);
 					Debug.Log("H�te : " + sName);*/
-					string sName = SteamMatchmaking.GetLobbyData(idLobby, "Name");
+					string sName = SteamMatchmaking.GetLobbyData(idLobby, "Détenteur");
 					if (sName != "")
 					{
 						Debug.Log("Nom Lobby : " + sName);
@@ -99,15 +90,15 @@ public class SteamManagerMenu : ASteamManager
 		{
 			if (pCallback.m_eResult != Steamworks.EResult.k_EResultOK)
 			{
-				Debug.Log("Cr�ation du lobby �chou�e.");
+				Debug.Log("Création du lobby échouée.");
 				return;
 			}
 
-			Debug.Log("Lobby cr�� " + pCallback.m_ulSteamIDLobby);
+			Debug.Log("Lobby créé " + pCallback.m_ulSteamIDLobby);
 
 			SteamLobby.Instance.steamIDLobby = (Steamworks.CSteamID)pCallback.m_ulSteamIDLobby;
 
-			if (SteamMatchmaking.SetLobbyData(SteamLobby.Instance.steamIDLobby, "Name", "WorldEasterFight"))
+			if (SteamMatchmaking.SetLobbyData(SteamLobby.Instance.steamIDLobby, "Name", "WorldEasterFight") && SteamMatchmaking.SetLobbyData(SteamLobby.Instance.steamIDLobby, "Détenteur", SteamFriends.GetPersonaName()))
 			{
 				Debug.Log("Mise en place des donn�es du lobby.");
 			}

@@ -1,3 +1,17 @@
+/******************************************************************************\
+* Fichier       : SteamScript.cs
+*
+* Classe        : SteamScript
+* Description   : Script de test quant à l'API Steam pour Unity.
+*
+* Créateur      : Romain Schlotter
+* 
+* Notes			: Script non utilisé dans la vie du jeu.
+\*******************************************************************************/
+/*******************************************************************************\
+* 09-03-2022   : Rendu du projet
+\*******************************************************************************/
+
 //#define TESTDOC
 
 using UnityEngine;
