@@ -5102,9 +5102,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '
-
-'
+  m_text: Victoire du Lapin
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: adea84a2fee8e3a4a8f56e9a6ead9bc5, type: 2}
   m_sharedMaterial: {fileID: 6745697491523701787, guid: adea84a2fee8e3a4a8f56e9a6ead9bc5, type: 2}
@@ -5113,8 +5111,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4281874687
+  m_fontColor: {r: 1, g: 0.22075468, b: 0.22075468, a: 1}
   m_enableVertexGradient: 1
   m_colorMode: 3
   m_fontColorGradient:
@@ -5131,8 +5129,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 150
-  m_fontSizeBase: 150
+  m_fontSize: 85
+  m_fontSizeBase: 85
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
