@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI WhoIsPlayerTxT;
     public TextMeshProUGUI PaTXT;
-    public TextMeshProUGUI ResultTXT
+    public TextMeshProUGUI ResultTXT;
 
     public Animator animPoule;
     public Animator animLapin;
@@ -635,18 +635,18 @@ public class GameManager : MonoBehaviour
         if (PlayerPoule.GetComponent<PlayerControl>().Life <= 0)
         {
             animLapin.SetBool("Victoire", true);
-            debug.log("Victoire du lapin ! ");
+            Debug.Log("Victoire du lapin ! ");
             ResultTXT.SetText("VICTOIRE DU LAPIN !");
         }
         else if (PlayerLapin.GetComponent<PlayerControl>().Life <= 0)
         {
             animPoule.SetBool("Victoire", true);
-            debug.log("Victoire de la poule ! ");
+            Debug.Log("Victoire de la poule ! ");
             ResultTXT.SetText("VICTOIRE DE LA POULE !");
         }
         else
         {
-            debug.log("égalité, du coup double annim de victoire !");
+            Debug.Log("égalité, du coup double annim de victoire !");
             ResultTXT.SetText("VICTOIRE !");
             animPoule.SetBool("Victoire", true);
             animLapin.SetBool("Victoire", true);
