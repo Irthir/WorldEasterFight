@@ -17,6 +17,10 @@
 -Systeme de verification des dessins
 -Actions joueurs
 
+## [0.4.3] - 2022-09-03 - G.G.
+###Ajout
+-Création des annimations de la poule et du lapin 
+
 ## [0.4.1] - 2022-08-03 - G.P.
 ### Ajout
 -Ajout de la condition de fin.
@@ -48,6 +52,10 @@
 ### Modification
 -Correction d'un bug sur le gamemanager.
 
+## [0.4.3] - 22-04-2022 - G.G.
+###Ajout
+-Creation graphismes
+
 ## [0.1.1] - 2022-02-03 - G.P.
 ###Ajout
 -Création des tableaux d'équilibrage
@@ -59,6 +67,10 @@
 ### Ajout
 -Mise en place de la structure AttaqueV3.
 -Lecture et écrite d'AttaqueV3 en string.
+
+## [0.4.3] - 03-03-2022 - G.G.
+###Ajout
+-Création de l'écran titre
 
 ## [0.0.5] - 2022-01-03 - R.S.
 ### Ajout
@@ -85,6 +97,10 @@
 -Évènement lors de la réception d'un message dans le lobby.
 -Évènement lors de la modification des données d'un lobby.
 -Évènement lors de la réception d'une invitation à un lobby.
+
+## [0.4.3] - 22-02-2022 - G.G.
+###Ajout
+-Création du core gameplay
 
 ## [0.0.2] - 2022-22-02 - R.S.
 ### Ajout
