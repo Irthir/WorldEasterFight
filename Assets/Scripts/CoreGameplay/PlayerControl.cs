@@ -36,13 +36,17 @@ public class PlayerControl : MonoBehaviour
     {
         if (ThisPlayerGetHit)
         {
-            CheckLifeBar();
+            HitPlayer();
             ThisPlayerGetHit = false;
+        }
+        if(ThisPlayerGetHeal) {
+            HealPlayer();
+            ThisPlayerGetHeal = false;
         }
 
     }
 
-    void CheckLifeBar()
+    void HitPlayer()
     {
         T_LifeBar[Life - 1].SetActive(false);
         Life--;
@@ -50,15 +54,36 @@ public class PlayerControl : MonoBehaviour
         if (Life == 2) 
         {
             Debug.Log("Yellow");
-            /*LifeBarSpritListTransform[0].GetComponent<SpriteRenderer>().color = Color.yellow;
-            LifeBarSpritListTransform[1].GetComponent<SpriteRenderer>().color = Color.yellow;*/
+            T_LifeBar[0].GetComponent<SpriteRenderer>().color = Color.yellow;
+            T_LifeBar[1].GetComponent<SpriteRenderer>().color = Color.yellow;
         }
         else if (Life == 1)
         {
             Debug.Log("red");
 
-            //LifeBarSpritListTransform[0].GetComponent<SpriteRenderer>().color = Color.red;
+            T_LifeBar[0].GetComponent<SpriteRenderer>().color = Color.red;
         }
 
     }
+
+
+    void HealPlayer() {
+        T_LifeBar[Life].SetActive(true);
+        Life++;
+
+        if(Life == 3) {
+            Debug.Log("Green");
+            T_LifeBar[0].GetComponent<SpriteRenderer>().color = Color.green;
+            T_LifeBar[1].GetComponent<SpriteRenderer>().color = Color.green;
+            T_LifeBar[2].GetComponent<SpriteRenderer>().color = Color.green;
+        } else if(Life == 2) {
+            Debug.Log("Yellow");
+            T_LifeBar[0].GetComponent<SpriteRenderer>().color = Color.yellow;
+            T_LifeBar[1].GetComponent<SpriteRenderer>().color = Color.yellow;
+        } else if(Life == 1) {
+            Debug.Log("red");
+            T_LifeBar[0].GetComponent<SpriteRenderer>().color = Color.red;
+        }
+    }
+
 }

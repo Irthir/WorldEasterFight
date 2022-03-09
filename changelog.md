@@ -1,3 +1,7 @@
+## [0.7.1] - 2022-09-03 - G.P.
+###Modification
+-Correction du bug de heal
+
 ## [0.6.3] - 2022-09-03 - G.P.
 ###Modification
 -Correction du bug empechant la lecture des collisions entre cases de joueurs

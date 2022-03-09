@@ -1,3 +1,23 @@
+/******************************************************************************\
+* Fichier       : ASteamManager.cs
+*
+* Classe        : ASteamManager
+* Description   : Classe abstraite pour la gestion des opération sur steam.
+* Attribut      : Steamworks.SteamAPICall_t hSteamAPICall : Pointeur de donnée de lobby pour les évènements.
+*                 Callback<LobbyMatchList_t> m_LobbyMatchList : Pointeur de fonction pour l'évènement de réception des lobbys.
+*                 Callback<LobbyCreated_t> m_LobbyCreated : 
+*                 Callback<LobbyEnter_t> m_LobbyEntered : 
+*                 Callback<GameConnectedFriendChatMsg_t> m_GameConnectedFriendChatMsg : 
+*                 Callback<LobbyChatUpdate_t> m_LobbyChatUpdate : 
+*                 Callback<LobbyChatMsg_t> m_LobbyChatMsg : 
+*                 Callback<LobbyDataUpdate_t> m_LobbyDataUpdate : 
+*                 Callback<LobbyInvite_t> m_LobbyInvite : 
+*
+* Créateur      : Romain Schlotter
+\*******************************************************************************/
+/*******************************************************************************\
+* 09-03-2022   : Rendu du projet
+\*******************************************************************************/
 using UnityEngine;
 using Steamworks;
 using System.Text;
