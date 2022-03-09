@@ -665,13 +665,13 @@ public class GameManager : MonoBehaviour
         PlayerPouleGrid.SetActive(false);
         ResultGrid.SetActive(false);
 
-        if (PlayerLapin.GetComponent<PlayerControl>().Life >= 0)
+        if (PlayerLapin.GetComponent<PlayerControl>().Life > 0)
         {
             animLapin.SetBool("Victoire", true);
             Debug.Log("Victoire du lapin ! ");
             ResultTXT.SetText("VICTOIRE DU LAPIN !");
         }
-        else if (PlayerPoule.GetComponent<PlayerControl>().Life >= 0)
+        else if (PlayerPoule.GetComponent<PlayerControl>().Life > 0)
         {
             animPoule.SetBool("Victoire", true);
             Debug.Log("Victoire de la poule ! ");
