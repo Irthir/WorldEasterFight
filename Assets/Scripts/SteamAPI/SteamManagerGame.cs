@@ -37,9 +37,7 @@ public class SteamManagerGame : ASteamManager
         base.OnEnable();
         if (SteamManager.Initialized)
         {
-            m_LobbyChatUpdate = null;
             m_LobbyChatUpdate = Callback<LobbyChatUpdate_t>.Create(OnLobbyChatUpdate);
-            m_LobbyChatMsg = null;
             m_LobbyChatMsg = Callback<LobbyChatMsg_t>.Create(OnLobbyChatMsg);
         }
     }
@@ -79,6 +77,8 @@ public class SteamManagerGame : ASteamManager
                     Debug.Log("Erreur gameManager null.");
                 }
             }
+
+            bytes = new byte[0];
         }
     }
 

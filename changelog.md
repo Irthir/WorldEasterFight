@@ -1,3 +1,11 @@
+## [0.0.9] - 2022-09-03 - R.S.
+### Ajout
+-Ajout de commentaires au code.
+### Modification
+-Correction des échanges des informations en réseau.
+-Correction de la mise en place des évènements réseaux.
+-Correction de l'utilisation de la mémoire avec les buffers.
+
 ## [0.7.1] - 2022-09-03 - G.P.
 ###Modification
 -Correction du bug de heal

@@ -43,13 +43,9 @@ public class SteamManagerMenu : ASteamManager
 		base.OnEnable();
 		if (SteamManager.Initialized)
 		{
-			m_LobbyMatchList = null;
 			m_LobbyMatchList = Callback<LobbyMatchList_t>.Create(OnGetLobbyMatchList);
-			m_LobbyCreated = null;
 			m_LobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
-			m_LobbyEntered = null;
 			m_LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
-			m_LobbyChatUpdate = null;
 			m_LobbyChatUpdate = Callback<LobbyChatUpdate_t>.Create(OnLobbyChatUpdate);
 		}
 	}
