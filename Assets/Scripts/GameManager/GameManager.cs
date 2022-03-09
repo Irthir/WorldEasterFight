@@ -562,8 +562,11 @@ public class GameManager : MonoBehaviour
         }
 
 
+        yield return new WaitForSeconds(2);
 
-        if(PlayerPoule.GetComponent<PlayerControl>().Life <= 0 || PlayerLapin.GetComponent<PlayerControl>().Life <= 0) {
+
+
+        if (PlayerPoule.GetComponent<PlayerControl>().Life <= 0 || PlayerLapin.GetComponent<PlayerControl>().Life <= 0) {
             VictoryScene();
         } else {
             CurrentStat = GameStat.ReStart;
